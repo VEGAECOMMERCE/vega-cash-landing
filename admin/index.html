@@ -8,6 +8,8 @@
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
+    var h = window.h || (window.preact && window.preact.h) || CMS.h;
+
     var css = `
       @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap');
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -53,83 +55,76 @@
       footer p{font-size:12px;color:rgba(255,255,255,0.35);}
     `;
 
+    function g(obj, key) {
+      if (!obj) return '';
+      if (typeof obj.get === 'function') return obj.get(key) || '';
+      return obj[key] || '';
+    }
+
     function LandingPreview(props) {
       var entry = props.entry;
-      var hero  = entry.getIn(['data','hero'])       || new Map();
-      var stats = entry.getIn(['data','stats'])      || new Map();
-      var bens  = entry.getIn(['data','beneficios']) || new Map();
-      var pasos = entry.getIn(['data','pasos'])      || new Map();
-      var form  = entry.getIn(['data','formulario']) || new Map();
+      var hero  = entry.getIn(['data','hero']);
+      var stats = entry.getIn(['data','stats']);
+      var bens  = entry.getIn(['data','beneficios']);
+      var pasos = entry.getIn(['data','pasos']);
+      var form  = entry.getIn(['data','formulario']);
 
-      var g = function(obj, key) {
-        if (!obj) return '';
-        if (typeof obj.get === 'function') return obj.get(key) || '';
-        return obj[key] || '';
-      };
-
-      return React.createElement('div', null,
-        React.createElement('style', null, css),
-
-        React.createElement('nav', null,
-          React.createElement('div', {className:'nav-logo'}, 'VEGA', React.createElement('span',null,'.pe')),
-          React.createElement('a', {href:'#', className:'nav-pill'}, 'Registrarme')
+      return h('div', null,
+        h('style', null, css),
+        h('nav', null,
+          h('div', {class:'nav-logo'}, 'VEGA', h('span', null, '.pe')),
+          h('a', {href:'#', class:'nav-pill'}, 'Registrarme')
         ),
-
-        React.createElement('section', {className:'hero'},
-          React.createElement('div', {className:'hero-badge'}, 'Programa de fidelización'),
-          React.createElement('h1', null, g(hero,'titulo') || 'Bienvenido al Vega Cash'),
-          React.createElement('p', {className:'hero-sub'}, g(hero,'subtitulo')),
-          React.createElement('a', {href:'#', className:'hero-cta'}, g(hero,'cta') || 'Quiero unirme')
+        h('section', {class:'hero'},
+          h('div', {class:'hero-badge'}, 'Programa de fidelización'),
+          h('h1', null, g(hero,'titulo') || 'Bienvenido al Vega Cash'),
+          h('p', {class:'hero-sub'}, g(hero,'subtitulo')),
+          h('a', {href:'#', class:'hero-cta'}, g(hero,'cta') || 'Quiero unirme')
         ),
-
-        React.createElement('div', {className:'stats-bar'},
-          React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, g(stats,'s1_num')), React.createElement('span',{className:'stat-label'}, g(stats,'s1_label'))),
-          React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, g(stats,'s2_num')), React.createElement('span',{className:'stat-label'}, g(stats,'s2_label'))),
-          React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, g(stats,'s3_num')), React.createElement('span',{className:'stat-label'}, g(stats,'s3_label'))),
-          React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, g(stats,'s4_num')), React.createElement('span',{className:'stat-label'}, g(stats,'s4_label')))
+        h('div', {class:'stats-bar'},
+          h('div', {class:'stat-item'}, h('span',{class:'stat-num'},g(stats,'s1_num')), h('span',{class:'stat-label'},g(stats,'s1_label'))),
+          h('div', {class:'stat-item'}, h('span',{class:'stat-num'},g(stats,'s2_num')), h('span',{class:'stat-label'},g(stats,'s2_label'))),
+          h('div', {class:'stat-item'}, h('span',{class:'stat-num'},g(stats,'s3_num')), h('span',{class:'stat-label'},g(stats,'s3_label'))),
+          h('div', {class:'stat-item'}, h('span',{class:'stat-num'},g(stats,'s4_num')), h('span',{class:'stat-label'},g(stats,'s4_label')))
         ),
-
-        React.createElement('section', {className:'beneficios'},
-          React.createElement('div', {className:'beneficios-header'},
-            React.createElement('span', {className:'section-tag'}, '¿Por qué unirse?'),
-            React.createElement('span', {className:'section-title'}, 'Beneficios que marcan la diferencia')
+        h('section', {class:'beneficios'},
+          h('div', {class:'beneficios-header'},
+            h('span', {class:'section-tag'}, '¿Por qué unirse?'),
+            h('span', {class:'section-title'}, 'Beneficios que marcan la diferencia')
           ),
-          React.createElement('div', {className:'beneficios-grid'},
-            React.createElement('div', {className:'beneficio-card'}, React.createElement('h3',null,g(bens,'b1_titulo')), React.createElement('p',null,g(bens,'b1_desc'))),
-            React.createElement('div', {className:'beneficio-card'}, React.createElement('h3',null,g(bens,'b2_titulo')), React.createElement('p',null,g(bens,'b2_desc'))),
-            React.createElement('div', {className:'beneficio-card'}, React.createElement('h3',null,g(bens,'b3_titulo')), React.createElement('p',null,g(bens,'b3_desc'))),
-            React.createElement('div', {className:'beneficio-card'}, React.createElement('h3',null,g(bens,'b4_titulo')), React.createElement('p',null,g(bens,'b4_desc')))
+          h('div', {class:'beneficios-grid'},
+            h('div', {class:'beneficio-card'}, h('h3',null,g(bens,'b1_titulo')), h('p',null,g(bens,'b1_desc'))),
+            h('div', {class:'beneficio-card'}, h('h3',null,g(bens,'b2_titulo')), h('p',null,g(bens,'b2_desc'))),
+            h('div', {class:'beneficio-card'}, h('h3',null,g(bens,'b3_titulo')), h('p',null,g(bens,'b3_desc'))),
+            h('div', {class:'beneficio-card'}, h('h3',null,g(bens,'b4_titulo')), h('p',null,g(bens,'b4_desc')))
           )
         ),
-
-        React.createElement('section', {className:'como-funciona'},
-          React.createElement('div', {className:'pasos-layout'},
-            React.createElement('div', null,
-              React.createElement('span', {className:'section-tag'}, g(pasos,'tag') || '¿Cómo funciona?'),
-              React.createElement('span', {className:'section-title'}, g(pasos,'titulo')),
-              React.createElement('span', {className:'section-sub'}, g(pasos,'subtitulo')),
-              React.createElement('ul', {className:'pasos-list'},
-                React.createElement('li', {className:'paso'}, React.createElement('div',{className:'paso-num'},'1'), React.createElement('div',{className:'paso-info'}, React.createElement('h4',null,g(pasos,'p1_titulo')), React.createElement('p',null,g(pasos,'p1_desc')))),
-                React.createElement('li', {className:'paso'}, React.createElement('div',{className:'paso-num'},'2'), React.createElement('div',{className:'paso-info'}, React.createElement('h4',null,g(pasos,'p2_titulo')), React.createElement('p',null,g(pasos,'p2_desc')))),
-                React.createElement('li', {className:'paso'}, React.createElement('div',{className:'paso-num'},'3'), React.createElement('div',{className:'paso-info'}, React.createElement('h4',null,g(pasos,'p3_titulo')), React.createElement('p',null,g(pasos,'p3_desc'))))
+        h('section', {class:'como-funciona'},
+          h('div', {class:'pasos-layout'},
+            h('div', null,
+              h('span', {class:'section-tag'}, g(pasos,'tag') || '¿Cómo funciona?'),
+              h('span', {class:'section-title'}, g(pasos,'titulo')),
+              h('span', {class:'section-sub'}, g(pasos,'subtitulo')),
+              h('ul', {class:'pasos-list'},
+                h('li', {class:'paso'}, h('div',{class:'paso-num'},'1'), h('div',{class:'paso-info'}, h('h4',null,g(pasos,'p1_titulo')), h('p',null,g(pasos,'p1_desc')))),
+                h('li', {class:'paso'}, h('div',{class:'paso-num'},'2'), h('div',{class:'paso-info'}, h('h4',null,g(pasos,'p2_titulo')), h('p',null,g(pasos,'p2_desc')))),
+                h('li', {class:'paso'}, h('div',{class:'paso-num'},'3'), h('div',{class:'paso-info'}, h('h4',null,g(pasos,'p3_titulo')), h('p',null,g(pasos,'p3_desc'))))
               )
             ),
-            React.createElement('div', {style:{background:'#F7F6F3',borderRadius:'16px',padding:'32px',textAlign:'center',color:'#6B6860',fontSize:'13px'}}, 'Vista previa del perfil de miembro')
+            h('div', {style:'background:#F7F6F3;border-radius:16px;padding:32px;text-align:center;color:#6B6860;font-size:13px;'}, 'Vista previa del perfil de miembro')
           )
         ),
-
-        React.createElement('section', {className:'formulario-section'},
-          React.createElement('div', {className:'form-wrapper'},
-            React.createElement('span', {className:'section-tag'}, g(form,'tag')),
-            React.createElement('span', {className:'section-title'}, g(form,'titulo')),
-            React.createElement('span', {className:'section-sub'}, g(form,'subtitulo')),
-            React.createElement('div', {className:'form-placeholder'}, '[ Formulario de registro ]')
+        h('section', {class:'formulario-section'},
+          h('div', {class:'form-wrapper'},
+            h('span', {class:'section-tag'}, g(form,'tag')),
+            h('span', {class:'section-title'}, g(form,'titulo')),
+            h('span', {class:'section-sub'}, g(form,'subtitulo')),
+            h('div', {class:'form-placeholder'}, '[ Formulario de registro ]')
           )
         ),
-
-        React.createElement('footer', null,
-          React.createElement('div', {className:'footer-logo'}, 'VEGA', React.createElement('span',null,'.pe')),
-          React.createElement('p', null, '© 2026 Corporación VEGA SAC')
+        h('footer', null,
+          h('div', {class:'footer-logo'}, 'VEGA', h('span',null,'.pe')),
+          h('p', null, '© 2026 Corporación VEGA SAC')
         )
       );
     }
