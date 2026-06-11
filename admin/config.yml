@@ -2,8 +2,6 @@ backend:
   name: github
   repo: VEGAECOMMERCE/vega-cash-landing
   branch: main
-  auth_type: pkce
-  app_id: Ov23liYl98Ra785VPEko
 
 media_folder: "images"
 public_folder: "/images"
@@ -24,6 +22,20 @@ collections:
               - { label: "Subtítulo", name: "subtitulo", widget: "text" }
               - { label: "Texto botón CTA", name: "cta", widget: "string" }
               - { label: "Imagen de fondo", name: "imagen", widget: "image", required: false }
+
+          - label: "STATS"
+            name: "stats"
+            widget: "object"
+            fields:
+              - { label: "Stat 1 — Número", name: "s1_num", widget: "string" }
+              - { label: "Stat 1 — Etiqueta", name: "s1_label", widget: "string" }
+              - { label: "Stat 2 — Número", name: "s2_num", widget: "string" }
+              - { label: "Stat 2 — Etiqueta", name: "s2_label", widget: "string" }
+              - { label: "Stat 3 — Número", name: "s3_num", widget: "string" }
+              - { label: "Stat 3 — Etiqueta", name: "s3_label", widget: "string" }
+              - { label: "Stat 4 — Número", name: "s4_num", widget: "string" }
+              - { label: "Stat 4 — Etiqueta", name: "s4_label", widget: "string" }
+
           - label: "BENEFICIOS"
             name: "beneficios"
             widget: "object"
@@ -36,3 +48,25 @@ collections:
               - { label: "Beneficio 3 — Descripción", name: "b3_desc", widget: "text" }
               - { label: "Beneficio 4 — Título", name: "b4_titulo", widget: "string" }
               - { label: "Beneficio 4 — Descripción", name: "b4_desc", widget: "text" }
+
+          - label: "CÓMO FUNCIONA"
+            name: "pasos"
+            widget: "object"
+            fields:
+              - { label: "Tag", name: "tag", widget: "string" }
+              - { label: "Título sección", name: "titulo", widget: "string" }
+              - { label: "Subtítulo sección", name: "subtitulo", widget: "string" }
+              - { label: "Paso 1 — Título", name: "p1_titulo", widget: "string" }
+              - { label: "Paso 1 — Descripción", name: "p1_desc", widget: "text" }
+              - { label: "Paso 2 — Título", name: "p2_titulo", widget: "string" }
+              - { label: "Paso 2 — Descripción", name: "p2_desc", widget: "text" }
+              - { label: "Paso 3 — Título", name: "p3_titulo", widget: "string" }
+              - { label: "Paso 3 — Descripción", name: "p3_desc", widget: "text" }
+
+          - label: "FORMULARIO"
+            name: "formulario"
+            widget: "object"
+            fields:
+              - { label: "Tag", name: "tag", widget: "string" }
+              - { label: "Título", name: "titulo", widget: "string" }
+              - { label: "Subtítulo", name: "subtitulo", widget: "string" }
