@@ -1,0 +1,37 @@
+backend:
+  name: github
+  repo: VEGAECOMMERCE/vega-cash-landing
+  branch: main
+  auth_type: pkce
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "config"
+    label: "Configuración de la Landing"
+    files:
+      - name: "landing"
+        label: "Landing Vega Cash"
+        file: "content.json"
+        fields:
+          - label: "HERO"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Título principal", name: "titulo", widget: "string" }
+              - { label: "Subtítulo", name: "subtitulo", widget: "text" }
+              - { label: "Texto botón CTA", name: "cta", widget: "string" }
+              - { label: "Imagen de fondo", name: "imagen", widget: "image", required: false }
+          - label: "BENEFICIOS"
+            name: "beneficios"
+            widget: "object"
+            fields:
+              - { label: "Beneficio 1 — Título", name: "b1_titulo", widget: "string" }
+              - { label: "Beneficio 1 — Descripción", name: "b1_desc", widget: "text" }
+              - { label: "Beneficio 2 — Título", name: "b2_titulo", widget: "string" }
+              - { label: "Beneficio 2 — Descripción", name: "b2_desc", widget: "text" }
+              - { label: "Beneficio 3 — Título", name: "b3_titulo", widget: "string" }
+              - { label: "Beneficio 3 — Descripción", name: "b3_desc", widget: "text" }
+              - { label: "Beneficio 4 — Título", name: "b4_titulo", widget: "string" }
+              - { label: "Beneficio 4 — Descripción", name: "b4_desc", widget: "text" }
