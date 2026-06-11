@@ -70,4 +70,10 @@ collections:
               - { label: "Tag", name: "tag", widget: "string" }
               - { label: "Título", name: "titulo", widget: "string" }
               - { label: "Subtítulo", name: "subtitulo", widget: "string" }
-              - { label: "Texto legal (términos)", name: "texto_legal", widget: "text" }
+              - { label: "Texto botón enviar", name: "btn_texto", widget: "string" }
+              - { label: "Nota de privacidad", name: "privacidad_nota", widget: "string" }
+              - { label: "Texto legal (sin links)", name: "texto_legal", widget: "text" }
+              - { label: "URL Términos y condiciones", name: "url_terminos", widget: "string" }
+              - { label: "URL Política de privacidad", name: "url_privacidad", widget: "string" }
+              - { label: "Mensaje éxito — Título", name: "exito_titulo", widget: "string" }
+              - { label: "Mensaje éxito — Descripción", name: "exito_desc", widget: "text" }
