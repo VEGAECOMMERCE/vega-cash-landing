@@ -3,6 +3,7 @@ backend:
   repo: VEGAECOMMERCE/vega-cash-landing
   branch: main
   auth_type: pkce
+  app_id: Ov23liYl98Ra785VPEko
 
 media_folder: "images"
 public_folder: "/images"
