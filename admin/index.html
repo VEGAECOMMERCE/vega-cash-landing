@@ -8,17 +8,6 @@
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
-    const h = (tag, props, ...children) => {
-      const el = document.createElement(tag);
-      if (props) Object.entries(props).forEach(([k, v]) => {
-        if (k === 'style' && typeof v === 'object') Object.assign(el.style, v);
-        else if (k === 'className') el.className = v;
-        else el.setAttribute(k, v);
-      });
-      children.flat().forEach(c => el.appendChild(typeof c === 'string' ? document.createTextNode(c) : c));
-      return el;
-    };
-
     const css = `
       @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap');
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -58,123 +47,110 @@
       .formulario-section{background:var(--gris-fondo);padding:64px 40px 80px;}
       .form-wrapper{max-width:620px;margin:0 auto;}
       .form-header{margin-bottom:36px;}
-      .form-card{background:white;border:1px solid var(--gris-borde);border-radius:16px;padding:36px 40px;text-align:center;color:var(--gris-texto);font-size:14px;}
+      .form-placeholder{background:white;border:1px solid var(--gris-borde);border-radius:16px;padding:48px;text-align:center;color:var(--gris-texto);font-size:14px;}
       footer{background:var(--negro);padding:32px 40px;text-align:center;}
       .footer-logo{font-family:var(--font-display);font-size:16px;font-weight:700;color:white;margin-bottom:8px;}
       .footer-logo span{color:var(--rojo);}
       footer p{font-size:12px;color:rgba(255,255,255,0.35);}
     `;
 
-    function LandingPreview(props) {
-      const entry = props.entry;
-      const data = entry.getIn(['data']);
+    var h = CMS.createClass({
+      render: function() {
+        var entry = this.props.entry;
+        var hero  = entry.getIn(['data','hero'])       || CMS.Map();
+        var stats = entry.getIn(['data','stats'])      || CMS.Map();
+        var bens  = entry.getIn(['data','beneficios']) || CMS.Map();
+        var pasos = entry.getIn(['data','pasos'])      || CMS.Map();
+        var form  = entry.getIn(['data','formulario']) || CMS.Map();
 
-      const hero      = data.get('hero')       ? data.get('hero').toJS()       : {};
-      const stats     = data.get('stats')      ? data.get('stats').toJS()      : {};
-      const bens      = data.get('beneficios') ? data.get('beneficios').toJS() : {};
-      const pasos     = data.get('pasos')      ? data.get('pasos').toJS()      : {};
-      const form      = data.get('formulario') ? data.get('formulario').toJS() : {};
+        return React.createElement('div', null,
+          React.createElement('style', null, css),
 
-      const wrap = h('div', {});
+          // NAV
+          React.createElement('nav', null,
+            React.createElement('div', {className:'nav-logo'}, 'VEGA', React.createElement('span',null,'.pe')),
+            React.createElement('a', {href:'#', className:'nav-pill'}, 'Registrarme')
+          ),
 
-      // Estilos
-      const style = h('style', {}); style.textContent = css;
-      wrap.appendChild(style);
+          // HERO
+          React.createElement('section', {className:'hero'},
+            React.createElement('div', {className:'hero-badge'}, 'Programa de fidelización'),
+            React.createElement('h1', null, hero.get('titulo') || 'Bienvenido al Vega Cash'),
+            React.createElement('p', {className:'hero-sub'}, hero.get('subtitulo') || ''),
+            React.createElement('a', {href:'#', className:'hero-cta'}, hero.get('cta') || 'Quiero unirme')
+          ),
 
-      // NAV
-      const nav = h('nav', {},
-        h('div', {className: 'nav-logo'}, 'VEGA', h('span', {}, '.pe')),
-        h('a', {href: '#', className: 'nav-pill'}, 'Registrarme')
-      );
-      wrap.appendChild(nav);
+          // STATS
+          React.createElement('div', {className:'stats-bar'},
+            React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, stats.get('s1_num')||''), React.createElement('span',{className:'stat-label'}, stats.get('s1_label')||'')),
+            React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, stats.get('s2_num')||''), React.createElement('span',{className:'stat-label'}, stats.get('s2_label')||'')),
+            React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, stats.get('s3_num')||''), React.createElement('span',{className:'stat-label'}, stats.get('s3_label')||'')),
+            React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, stats.get('s4_num')||''), React.createElement('span',{className:'stat-label'}, stats.get('s4_label')||''))
+          ),
 
-      // HERO
-      const heroSec = h('section', {className: 'hero'},
-        h('div', {className: 'hero-badge'}, 'Programa de fidelización'),
-        h('h1', {}, hero.titulo || 'Bienvenido al Vega Cash'),
-        h('p', {className: 'hero-sub'}, hero.subtitulo || ''),
-        h('a', {href: '#', className: 'hero-cta'}, hero.cta || 'Quiero unirme')
-      );
-      wrap.appendChild(heroSec);
-
-      // STATS
-      const statsBar = h('div', {className: 'stats-bar'},
-        ...[['s1','s2','s3','s4']].flat().map(s =>
-          h('div', {className: 'stat-item'},
-            h('span', {className: 'stat-num'}, stats[s+'_num'] || ''),
-            h('span', {className: 'stat-label'}, stats[s+'_label'] || '')
-          )
-        )
-      );
-      wrap.appendChild(statsBar);
-
-      // BENEFICIOS
-      const bensSection = h('section', {className: 'beneficios'},
-        h('div', {className: 'beneficios-header'},
-          h('div', {className: 'section-tag'}, '¿Por qué unirse?'),
-          h('h2', {className: 'section-title'}, 'Beneficios que marcan la diferencia')
-        ),
-        h('div', {className: 'beneficios-grid'},
-          ...[1,2,3,4].map(n =>
-            h('div', {className: 'beneficio-card'},
-              h('h3', {}, bens['b'+n+'_titulo'] || ''),
-              h('p', {}, bens['b'+n+'_desc'] || '')
-            )
-          )
-        )
-      );
-      wrap.appendChild(bensSection);
-
-      // PASOS
-      const pasosSection = h('section', {className: 'como-funciona'},
-        h('div', {className: 'pasos-layout'},
-          h('div', {},
-            h('div', {className: 'section-tag'}, pasos.tag || '¿Cómo funciona?'),
-            h('h2', {className: 'section-title'}, pasos.titulo || ''),
-            h('p', {className: 'section-sub'}, pasos.subtitulo || ''),
-            h('ul', {className: 'pasos-list'},
-              ...[1,2,3].map(n =>
-                h('li', {className: 'paso'},
-                  h('div', {className: 'paso-num'}, String(n)),
-                  h('div', {className: 'paso-info'},
-                    h('h4', {}, pasos['p'+n+'_titulo'] || ''),
-                    h('p', {}, pasos['p'+n+'_desc'] || '')
-                  )
+          // BENEFICIOS
+          React.createElement('section', {className:'beneficios'},
+            React.createElement('div', {className:'beneficios-header'},
+              React.createElement('div', {className:'section-tag'}, '¿Por qué unirse?'),
+              React.createElement('h2', {className:'section-title'}, 'Beneficios que marcan la diferencia')
+            ),
+            React.createElement('div', {className:'beneficios-grid'},
+              ...[1,2,3,4].map(n =>
+                React.createElement('div', {className:'beneficio-card', key:n},
+                  React.createElement('h3', null, bens.get('b'+n+'_titulo') || ''),
+                  React.createElement('p',  null, bens.get('b'+n+'_desc')   || '')
                 )
               )
             )
           ),
-          h('div', {style: {background:'#F7F6F3',borderRadius:'16px',padding:'32px',textAlign:'center',color:'#6B6860',fontSize:'13px'}},
-            'Vista previa del perfil de miembro'
-          )
-        )
-      );
-      wrap.appendChild(pasosSection);
 
-      // FORMULARIO
-      const formSection = h('section', {className: 'formulario-section'},
-        h('div', {className: 'form-wrapper'},
-          h('div', {className: 'form-header'},
-            h('div', {className: 'section-tag'}, form.tag || ''),
-            h('h2', {className: 'section-title'}, form.titulo || ''),
-            h('p', {className: 'section-sub'}, form.subtitulo || '')
+          // PASOS
+          React.createElement('section', {className:'como-funciona'},
+            React.createElement('div', {className:'pasos-layout'},
+              React.createElement('div', null,
+                React.createElement('div', {className:'section-tag'}, pasos.get('tag') || '¿Cómo funciona?'),
+                React.createElement('h2', {className:'section-title'}, pasos.get('titulo') || ''),
+                React.createElement('p',  {className:'section-sub'},   pasos.get('subtitulo') || ''),
+                React.createElement('ul', {className:'pasos-list'},
+                  ...[1,2,3].map(n =>
+                    React.createElement('li', {className:'paso', key:n},
+                      React.createElement('div', {className:'paso-num'}, String(n)),
+                      React.createElement('div', {className:'paso-info'},
+                        React.createElement('h4', null, pasos.get('p'+n+'_titulo') || ''),
+                        React.createElement('p',  null, pasos.get('p'+n+'_desc')   || '')
+                      )
+                    )
+                  )
+                )
+              ),
+              React.createElement('div', {style:{background:'#F7F6F3',borderRadius:'16px',padding:'32px',textAlign:'center',color:'#6B6860',fontSize:'13px'}},
+                'Vista previa del perfil de miembro'
+              )
+            )
           ),
-          h('div', {className: 'form-card'}, '[ Formulario de registro ]')
-        )
-      );
-      wrap.appendChild(formSection);
 
-      // FOOTER
-      const footer = h('footer', {},
-        h('div', {className: 'footer-logo'}, 'VEGA', h('span', {}, '.pe')),
-        h('p', {}, '© 2026 Corporación VEGA SAC')
-      );
-      wrap.appendChild(footer);
+          // FORMULARIO
+          React.createElement('section', {className:'formulario-section'},
+            React.createElement('div', {className:'form-wrapper'},
+              React.createElement('div', {className:'form-header'},
+                React.createElement('div', {className:'section-tag'}, form.get('tag') || ''),
+                React.createElement('h2', {className:'section-title'}, form.get('titulo') || ''),
+                React.createElement('p',  {className:'section-sub'},   form.get('subtitulo') || '')
+              ),
+              React.createElement('div', {className:'form-placeholder'}, '[ Formulario de registro ]')
+            )
+          ),
 
-      return wrap;
-    }
+          // FOOTER
+          React.createElement('footer', null,
+            React.createElement('div', {className:'footer-logo'}, 'VEGA', React.createElement('span',null,'.pe')),
+            React.createElement('p', null, '© 2026 Corporación VEGA SAC')
+          )
+        );
+      }
+    });
 
-    CMS.registerPreviewTemplate('landing', LandingPreview);
+    CMS.registerPreviewTemplate('landing', h);
   </script>
 </body>
 </html>
