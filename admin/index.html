@@ -8,20 +8,20 @@
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
-    const css = `
+    var css = `
       @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap');
       *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-      :root{--rojo:#CC0000;--rojo-oscuro:#A80000;--blanco:#FFFFFF;--gris-fondo:#F7F6F3;--gris-borde:#E5E3DC;--gris-texto:#6B6860;--negro:#1A1917;--font-display:'Sora',sans-serif;--font-body:'DM Sans',sans-serif;}
-      body{font-family:var(--font-body);background:var(--blanco);color:var(--negro);line-height:1.6;overflow-x:hidden;}
+      :root{--rojo:#CC0000;--blanco:#FFFFFF;--gris-fondo:#F7F6F3;--gris-borde:#E5E3DC;--gris-texto:#6B6860;--negro:#1A1917;--font-display:'Sora',sans-serif;--font-body:'DM Sans',sans-serif;}
+      body{font-family:var(--font-body);background:var(--blanco);color:var(--negro);line-height:1.6;}
       nav{background:var(--blanco);border-bottom:1px solid var(--gris-borde);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;}
       .nav-logo{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--rojo);}
       .nav-logo span{color:var(--negro);}
       .nav-pill{background:var(--rojo);color:white;font-family:var(--font-display);font-size:12px;font-weight:600;padding:6px 16px;border-radius:20px;text-decoration:none;text-transform:uppercase;}
       .hero{background:var(--rojo);padding:72px 40px 64px;text-align:center;}
       .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);color:white;font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:24px;}
-      .hero h1{font-family:var(--font-display);font-size:40px;font-weight:700;color:white;line-height:1.15;letter-spacing:-0.03em;max-width:640px;margin:0 auto 16px;}
-      .hero-sub{font-size:16px;color:rgba(255,255,255,0.82);max-width:460px;margin:0 auto 32px;line-height:1.6;}
-      .hero-cta{display:inline-flex;align-items:center;gap:8px;background:white;color:var(--rojo);font-family:var(--font-display);font-size:15px;font-weight:600;padding:14px 32px;border-radius:8px;text-decoration:none;}
+      .hero h1{font-family:var(--font-display);font-size:40px;font-weight:700;color:white;line-height:1.15;max-width:640px;margin:0 auto 16px;}
+      .hero-sub{font-size:16px;color:rgba(255,255,255,0.82);max-width:460px;margin:0 auto 32px;}
+      .hero-cta{display:inline-flex;align-items:center;background:white;color:var(--rojo);font-family:var(--font-display);font-size:15px;font-weight:600;padding:14px 32px;border-radius:8px;text-decoration:none;}
       .stats-bar{background:var(--negro);padding:0 40px;display:flex;justify-content:center;}
       .stat-item{padding:18px 32px;text-align:center;border-right:1px solid rgba(255,255,255,0.08);}
       .stat-item:last-child{border-right:none;}
@@ -29,9 +29,9 @@
       .stat-label{font-size:11px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;display:block;}
       .beneficios{background:var(--gris-fondo);padding:64px 40px;}
       .beneficios-header{text-align:center;margin-bottom:48px;}
-      .section-tag{display:inline-block;font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--rojo);margin-bottom:12px;}
-      .section-title{font-family:var(--font-display);font-size:28px;font-weight:700;letter-spacing:-0.02em;line-height:1.2;color:var(--negro);margin-bottom:8px;}
-      .section-sub{font-size:15px;color:var(--gris-texto);line-height:1.6;}
+      .section-tag{font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--rojo);display:block;margin-bottom:12px;}
+      .section-title{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--negro);margin-bottom:8px;display:block;}
+      .section-sub{font-size:15px;color:var(--gris-texto);display:block;}
       .beneficios-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:900px;margin:0 auto;}
       .beneficio-card{background:white;border:1px solid var(--gris-borde);border-radius:12px;padding:28px 24px;}
       .beneficio-card h3{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--negro);margin-bottom:6px;}
@@ -46,111 +46,95 @@
       .paso-info p{font-size:13px;color:var(--gris-texto);line-height:1.5;}
       .formulario-section{background:var(--gris-fondo);padding:64px 40px 80px;}
       .form-wrapper{max-width:620px;margin:0 auto;}
-      .form-header{margin-bottom:36px;}
-      .form-placeholder{background:white;border:1px solid var(--gris-borde);border-radius:16px;padding:48px;text-align:center;color:var(--gris-texto);font-size:14px;}
+      .form-placeholder{background:white;border:1px solid var(--gris-borde);border-radius:16px;padding:48px;text-align:center;color:var(--gris-texto);font-size:14px;margin-top:24px;}
       footer{background:var(--negro);padding:32px 40px;text-align:center;}
       .footer-logo{font-family:var(--font-display);font-size:16px;font-weight:700;color:white;margin-bottom:8px;}
       .footer-logo span{color:var(--rojo);}
       footer p{font-size:12px;color:rgba(255,255,255,0.35);}
     `;
 
-    var h = CMS.createClass({
-      render: function() {
-        var entry = this.props.entry;
-        var hero  = entry.getIn(['data','hero'])       || CMS.Map();
-        var stats = entry.getIn(['data','stats'])      || CMS.Map();
-        var bens  = entry.getIn(['data','beneficios']) || CMS.Map();
-        var pasos = entry.getIn(['data','pasos'])      || CMS.Map();
-        var form  = entry.getIn(['data','formulario']) || CMS.Map();
+    function LandingPreview(props) {
+      var entry = props.entry;
+      var hero  = entry.getIn(['data','hero'])       || new Map();
+      var stats = entry.getIn(['data','stats'])      || new Map();
+      var bens  = entry.getIn(['data','beneficios']) || new Map();
+      var pasos = entry.getIn(['data','pasos'])      || new Map();
+      var form  = entry.getIn(['data','formulario']) || new Map();
 
-        return React.createElement('div', null,
-          React.createElement('style', null, css),
+      var g = function(obj, key) {
+        if (!obj) return '';
+        if (typeof obj.get === 'function') return obj.get(key) || '';
+        return obj[key] || '';
+      };
 
-          // NAV
-          React.createElement('nav', null,
-            React.createElement('div', {className:'nav-logo'}, 'VEGA', React.createElement('span',null,'.pe')),
-            React.createElement('a', {href:'#', className:'nav-pill'}, 'Registrarme')
+      return React.createElement('div', null,
+        React.createElement('style', null, css),
+
+        React.createElement('nav', null,
+          React.createElement('div', {className:'nav-logo'}, 'VEGA', React.createElement('span',null,'.pe')),
+          React.createElement('a', {href:'#', className:'nav-pill'}, 'Registrarme')
+        ),
+
+        React.createElement('section', {className:'hero'},
+          React.createElement('div', {className:'hero-badge'}, 'Programa de fidelización'),
+          React.createElement('h1', null, g(hero,'titulo') || 'Bienvenido al Vega Cash'),
+          React.createElement('p', {className:'hero-sub'}, g(hero,'subtitulo')),
+          React.createElement('a', {href:'#', className:'hero-cta'}, g(hero,'cta') || 'Quiero unirme')
+        ),
+
+        React.createElement('div', {className:'stats-bar'},
+          React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, g(stats,'s1_num')), React.createElement('span',{className:'stat-label'}, g(stats,'s1_label'))),
+          React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, g(stats,'s2_num')), React.createElement('span',{className:'stat-label'}, g(stats,'s2_label'))),
+          React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, g(stats,'s3_num')), React.createElement('span',{className:'stat-label'}, g(stats,'s3_label'))),
+          React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, g(stats,'s4_num')), React.createElement('span',{className:'stat-label'}, g(stats,'s4_label')))
+        ),
+
+        React.createElement('section', {className:'beneficios'},
+          React.createElement('div', {className:'beneficios-header'},
+            React.createElement('span', {className:'section-tag'}, '¿Por qué unirse?'),
+            React.createElement('span', {className:'section-title'}, 'Beneficios que marcan la diferencia')
           ),
-
-          // HERO
-          React.createElement('section', {className:'hero'},
-            React.createElement('div', {className:'hero-badge'}, 'Programa de fidelización'),
-            React.createElement('h1', null, hero.get('titulo') || 'Bienvenido al Vega Cash'),
-            React.createElement('p', {className:'hero-sub'}, hero.get('subtitulo') || ''),
-            React.createElement('a', {href:'#', className:'hero-cta'}, hero.get('cta') || 'Quiero unirme')
-          ),
-
-          // STATS
-          React.createElement('div', {className:'stats-bar'},
-            React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, stats.get('s1_num')||''), React.createElement('span',{className:'stat-label'}, stats.get('s1_label')||'')),
-            React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, stats.get('s2_num')||''), React.createElement('span',{className:'stat-label'}, stats.get('s2_label')||'')),
-            React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, stats.get('s3_num')||''), React.createElement('span',{className:'stat-label'}, stats.get('s3_label')||'')),
-            React.createElement('div', {className:'stat-item'}, React.createElement('span',{className:'stat-num'}, stats.get('s4_num')||''), React.createElement('span',{className:'stat-label'}, stats.get('s4_label')||''))
-          ),
-
-          // BENEFICIOS
-          React.createElement('section', {className:'beneficios'},
-            React.createElement('div', {className:'beneficios-header'},
-              React.createElement('div', {className:'section-tag'}, '¿Por qué unirse?'),
-              React.createElement('h2', {className:'section-title'}, 'Beneficios que marcan la diferencia')
-            ),
-            React.createElement('div', {className:'beneficios-grid'},
-              ...[1,2,3,4].map(n =>
-                React.createElement('div', {className:'beneficio-card', key:n},
-                  React.createElement('h3', null, bens.get('b'+n+'_titulo') || ''),
-                  React.createElement('p',  null, bens.get('b'+n+'_desc')   || '')
-                )
-              )
-            )
-          ),
-
-          // PASOS
-          React.createElement('section', {className:'como-funciona'},
-            React.createElement('div', {className:'pasos-layout'},
-              React.createElement('div', null,
-                React.createElement('div', {className:'section-tag'}, pasos.get('tag') || '¿Cómo funciona?'),
-                React.createElement('h2', {className:'section-title'}, pasos.get('titulo') || ''),
-                React.createElement('p',  {className:'section-sub'},   pasos.get('subtitulo') || ''),
-                React.createElement('ul', {className:'pasos-list'},
-                  ...[1,2,3].map(n =>
-                    React.createElement('li', {className:'paso', key:n},
-                      React.createElement('div', {className:'paso-num'}, String(n)),
-                      React.createElement('div', {className:'paso-info'},
-                        React.createElement('h4', null, pasos.get('p'+n+'_titulo') || ''),
-                        React.createElement('p',  null, pasos.get('p'+n+'_desc')   || '')
-                      )
-                    )
-                  )
-                )
-              ),
-              React.createElement('div', {style:{background:'#F7F6F3',borderRadius:'16px',padding:'32px',textAlign:'center',color:'#6B6860',fontSize:'13px'}},
-                'Vista previa del perfil de miembro'
-              )
-            )
-          ),
-
-          // FORMULARIO
-          React.createElement('section', {className:'formulario-section'},
-            React.createElement('div', {className:'form-wrapper'},
-              React.createElement('div', {className:'form-header'},
-                React.createElement('div', {className:'section-tag'}, form.get('tag') || ''),
-                React.createElement('h2', {className:'section-title'}, form.get('titulo') || ''),
-                React.createElement('p',  {className:'section-sub'},   form.get('subtitulo') || '')
-              ),
-              React.createElement('div', {className:'form-placeholder'}, '[ Formulario de registro ]')
-            )
-          ),
-
-          // FOOTER
-          React.createElement('footer', null,
-            React.createElement('div', {className:'footer-logo'}, 'VEGA', React.createElement('span',null,'.pe')),
-            React.createElement('p', null, '© 2026 Corporación VEGA SAC')
+          React.createElement('div', {className:'beneficios-grid'},
+            React.createElement('div', {className:'beneficio-card'}, React.createElement('h3',null,g(bens,'b1_titulo')), React.createElement('p',null,g(bens,'b1_desc'))),
+            React.createElement('div', {className:'beneficio-card'}, React.createElement('h3',null,g(bens,'b2_titulo')), React.createElement('p',null,g(bens,'b2_desc'))),
+            React.createElement('div', {className:'beneficio-card'}, React.createElement('h3',null,g(bens,'b3_titulo')), React.createElement('p',null,g(bens,'b3_desc'))),
+            React.createElement('div', {className:'beneficio-card'}, React.createElement('h3',null,g(bens,'b4_titulo')), React.createElement('p',null,g(bens,'b4_desc')))
           )
-        );
-      }
-    });
+        ),
 
-    CMS.registerPreviewTemplate('landing', h);
+        React.createElement('section', {className:'como-funciona'},
+          React.createElement('div', {className:'pasos-layout'},
+            React.createElement('div', null,
+              React.createElement('span', {className:'section-tag'}, g(pasos,'tag') || '¿Cómo funciona?'),
+              React.createElement('span', {className:'section-title'}, g(pasos,'titulo')),
+              React.createElement('span', {className:'section-sub'}, g(pasos,'subtitulo')),
+              React.createElement('ul', {className:'pasos-list'},
+                React.createElement('li', {className:'paso'}, React.createElement('div',{className:'paso-num'},'1'), React.createElement('div',{className:'paso-info'}, React.createElement('h4',null,g(pasos,'p1_titulo')), React.createElement('p',null,g(pasos,'p1_desc')))),
+                React.createElement('li', {className:'paso'}, React.createElement('div',{className:'paso-num'},'2'), React.createElement('div',{className:'paso-info'}, React.createElement('h4',null,g(pasos,'p2_titulo')), React.createElement('p',null,g(pasos,'p2_desc')))),
+                React.createElement('li', {className:'paso'}, React.createElement('div',{className:'paso-num'},'3'), React.createElement('div',{className:'paso-info'}, React.createElement('h4',null,g(pasos,'p3_titulo')), React.createElement('p',null,g(pasos,'p3_desc'))))
+              )
+            ),
+            React.createElement('div', {style:{background:'#F7F6F3',borderRadius:'16px',padding:'32px',textAlign:'center',color:'#6B6860',fontSize:'13px'}}, 'Vista previa del perfil de miembro')
+          )
+        ),
+
+        React.createElement('section', {className:'formulario-section'},
+          React.createElement('div', {className:'form-wrapper'},
+            React.createElement('span', {className:'section-tag'}, g(form,'tag')),
+            React.createElement('span', {className:'section-title'}, g(form,'titulo')),
+            React.createElement('span', {className:'section-sub'}, g(form,'subtitulo')),
+            React.createElement('div', {className:'form-placeholder'}, '[ Formulario de registro ]')
+          )
+        ),
+
+        React.createElement('footer', null,
+          React.createElement('div', {className:'footer-logo'}, 'VEGA', React.createElement('span',null,'.pe')),
+          React.createElement('p', null, '© 2026 Corporación VEGA SAC')
+        )
+      );
+    }
+
+    CMS.registerPreviewTemplate('landing', LandingPreview);
   </script>
 </body>
 </html>
