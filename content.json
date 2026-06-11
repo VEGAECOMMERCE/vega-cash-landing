@@ -1,12 +1,12 @@
 {
   "hero": {
-    "titulo": "Bienvenidos al Vega Cash",
+    "titulo": "Bienvenido al Vega Cash",
     "subtitulo": "Accede a descuentos exclusivos, promociones anticipadas y beneficios personalizados solo para nuestros miembros.",
     "cta": "Quiero unirme",
     "imagen": ""
   },
   "stats": {
-    "s1_num": "54",
+    "s1_num": "16",
     "s1_label": "Tiendas en Lima",
     "s2_num": "+9,000",
     "s2_label": "Clientes activos",
@@ -26,19 +26,20 @@
     "b4_desc": "Cada compra suma puntos que puedes usar en tu siguiente pedido en vega.pe."
   },
   "pasos": {
-    "p3_desc": "Compra en vega.pe o en nuestras tiendas y accede automáticamente a tus descuentos.",
-    "p2_desc": "Te enviamos un correo de bienvenida con tu código de miembro y tus primeros beneficios.",
-    "p1_desc": "Ingresa tus datos básicos: nombre, DNI, correo y distrito. Solo toma 2 minutos.",
-    "p3_titulo": "Empieza a disfrutar",
-    "p2_titulo": "Confirma tu registro",
-    "p1_titulo": "Completa el formulario",
-    "subtitulo": "Es rápido, gratuito y sin compromisos.",
+    "tag": "¿Cómo funciona?",
     "titulo": "En 3 pasos ya eres miembro",
-    "tag": "¿Cómo funciona?"
+    "subtitulo": "Es rápido, gratuito y sin compromisos.",
+    "p1_titulo": "Completa el formulario",
+    "p1_desc": "Ingresa tus datos básicos: nombre, DNI, correo y distrito. Solo toma 2 minutos.",
+    "p2_titulo": "Confirma tu registro",
+    "p2_desc": "Te enviamos un correo de bienvenida con tu código de miembro y tus primeros beneficios.",
+    "p3_titulo": "Empieza a disfrutar",
+    "p3_desc": "Compra en vega.pe o en nuestras tiendas y accede automáticamente a tus descuentos."
   },
   "formulario": {
     "tag": "Únete gratis",
     "titulo": "Crea tu cuenta Vega Cash",
-    "subtitulo": "Completa tus datos y empieza a ahorrar hoy mismo."
+    "subtitulo": "Completa tus datos y empieza a ahorrar hoy mismo.",
+    "texto_legal": "Acepto los términos y condiciones y he leído la política de privacidad de Corporación VEGA SAC. Autorizo el tratamiento de mis datos personales para recibir comunicaciones del Vega Cash."
   }
 }
