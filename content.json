@@ -40,6 +40,12 @@
     "tag": "Únete gratis",
     "titulo": "Crea tu cuenta Vega Cash",
     "subtitulo": "Completa tus datos y empieza a ahorrar hoy mismo.",
-    "texto_legal": "Acepto los términos y condiciones y he leído la política de privacidad de Corporación VEGA SAC. Autorizo el tratamiento de mis datos personales para recibir comunicaciones del Vega Cash."
+    "btn_texto": "Crear mi cuenta Vega Cash",
+    "privacidad_nota": "Tus datos están protegidos. Nunca los compartiremos con terceros.",
+    "texto_legal": "Acepto los términos y condiciones y he leído la política de privacidad de Corporación VEGA SAC. Autorizo el tratamiento de mis datos personales para recibir comunicaciones del Vega Cash.",
+    "url_terminos": "#",
+    "url_privacidad": "#",
+    "exito_titulo": "¡Bienvenido al Vega Cash!",
+    "exito_desc": "Tu registro fue exitoso. En breve recibirás un correo de confirmación con tus beneficios de bienvenida."
   }
 }
