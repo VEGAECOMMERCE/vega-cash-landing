@@ -8,126 +8,83 @@
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   <script>
-    var h = window.h || (window.preact && window.preact.h) || CMS.h;
+    CMS.registerPreviewStyle("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap");
+    CMS.registerPreviewStyle("/admin/preview.css");
 
-    var css = `
-      @import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap');
-      *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-      :root{--rojo:#CC0000;--blanco:#FFFFFF;--gris-fondo:#F7F6F3;--gris-borde:#E5E3DC;--gris-texto:#6B6860;--negro:#1A1917;--font-display:'Sora',sans-serif;--font-body:'DM Sans',sans-serif;}
-      body{font-family:var(--font-body);background:var(--blanco);color:var(--negro);line-height:1.6;}
-      nav{background:var(--blanco);border-bottom:1px solid var(--gris-borde);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;}
-      .nav-logo{font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--rojo);}
-      .nav-logo span{color:var(--negro);}
-      .nav-pill{background:var(--rojo);color:white;font-family:var(--font-display);font-size:12px;font-weight:600;padding:6px 16px;border-radius:20px;text-decoration:none;text-transform:uppercase;}
-      .hero{background:var(--rojo);padding:72px 40px 64px;text-align:center;}
-      .hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.15);color:white;font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:24px;}
-      .hero h1{font-family:var(--font-display);font-size:40px;font-weight:700;color:white;line-height:1.15;max-width:640px;margin:0 auto 16px;}
-      .hero-sub{font-size:16px;color:rgba(255,255,255,0.82);max-width:460px;margin:0 auto 32px;}
-      .hero-cta{display:inline-flex;align-items:center;background:white;color:var(--rojo);font-family:var(--font-display);font-size:15px;font-weight:600;padding:14px 32px;border-radius:8px;text-decoration:none;}
-      .stats-bar{background:var(--negro);padding:0 40px;display:flex;justify-content:center;}
-      .stat-item{padding:18px 32px;text-align:center;border-right:1px solid rgba(255,255,255,0.08);}
-      .stat-item:last-child{border-right:none;}
-      .stat-num{font-family:var(--font-display);font-size:22px;font-weight:700;color:white;display:block;}
-      .stat-label{font-size:11px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.08em;display:block;}
-      .beneficios{background:var(--gris-fondo);padding:64px 40px;}
-      .beneficios-header{text-align:center;margin-bottom:48px;}
-      .section-tag{font-family:var(--font-display);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--rojo);display:block;margin-bottom:12px;}
-      .section-title{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--negro);margin-bottom:8px;display:block;}
-      .section-sub{font-size:15px;color:var(--gris-texto);display:block;}
-      .beneficios-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;max-width:900px;margin:0 auto;}
-      .beneficio-card{background:white;border:1px solid var(--gris-borde);border-radius:12px;padding:28px 24px;}
-      .beneficio-card h3{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--negro);margin-bottom:6px;}
-      .beneficio-card p{font-size:13px;color:var(--gris-texto);line-height:1.55;}
-      .como-funciona{background:white;padding:64px 40px;}
-      .pasos-layout{display:grid;grid-template-columns:1fr 1fr;gap:48px;max-width:860px;margin:0 auto;}
-      .pasos-list{list-style:none;margin-top:32px;}
-      .paso{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--gris-borde);}
-      .paso:last-child{border-bottom:none;}
-      .paso-num{width:32px;height:32px;border-radius:50%;background:var(--rojo);color:white;font-family:var(--font-display);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-      .paso-info h4{font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--negro);margin-bottom:4px;}
-      .paso-info p{font-size:13px;color:var(--gris-texto);line-height:1.5;}
-      .formulario-section{background:var(--gris-fondo);padding:64px 40px 80px;}
-      .form-wrapper{max-width:620px;margin:0 auto;}
-      .form-placeholder{background:white;border:1px solid var(--gris-borde);border-radius:16px;padding:48px;text-align:center;color:var(--gris-texto);font-size:14px;margin-top:24px;}
-      footer{background:var(--negro);padding:32px 40px;text-align:center;}
-      .footer-logo{font-family:var(--font-display);font-size:16px;font-weight:700;color:white;margin-bottom:8px;}
-      .footer-logo span{color:var(--rojo);}
-      footer p{font-size:12px;color:rgba(255,255,255,0.35);}
-    `;
+    var LandingPreview = createClass({
+      render: function() {
+        var entry = this.props.entry;
+        var hero  = entry.getIn(['data','hero'])       || {};
+        var stats = entry.getIn(['data','stats'])      || {};
+        var bens  = entry.getIn(['data','beneficios']) || {};
+        var pasos = entry.getIn(['data','pasos'])      || {};
+        var form  = entry.getIn(['data','formulario']) || {};
 
-    function g(obj, key) {
-      if (!obj) return '';
-      if (typeof obj.get === 'function') return obj.get(key) || '';
-      return obj[key] || '';
-    }
+        function g(obj, key) {
+          if (!obj) return '';
+          if (typeof obj.get === 'function') return obj.get(key) || '';
+          return obj[key] || '';
+        }
 
-    function LandingPreview(props) {
-      var entry = props.entry;
-      var hero  = entry.getIn(['data','hero']);
-      var stats = entry.getIn(['data','stats']);
-      var bens  = entry.getIn(['data','beneficios']);
-      var pasos = entry.getIn(['data','pasos']);
-      var form  = entry.getIn(['data','formulario']);
-
-      return h('div', null,
-        h('style', null, css),
-        h('nav', null,
-          h('div', {class:'nav-logo'}, 'VEGA', h('span', null, '.pe')),
-          h('a', {href:'#', class:'nav-pill'}, 'Registrarme')
-        ),
-        h('section', {class:'hero'},
-          h('div', {class:'hero-badge'}, 'Programa de fidelización'),
-          h('h1', null, g(hero,'titulo') || 'Bienvenido al Vega Cash'),
-          h('p', {class:'hero-sub'}, g(hero,'subtitulo')),
-          h('a', {href:'#', class:'hero-cta'}, g(hero,'cta') || 'Quiero unirme')
-        ),
-        h('div', {class:'stats-bar'},
-          h('div', {class:'stat-item'}, h('span',{class:'stat-num'},g(stats,'s1_num')), h('span',{class:'stat-label'},g(stats,'s1_label'))),
-          h('div', {class:'stat-item'}, h('span',{class:'stat-num'},g(stats,'s2_num')), h('span',{class:'stat-label'},g(stats,'s2_label'))),
-          h('div', {class:'stat-item'}, h('span',{class:'stat-num'},g(stats,'s3_num')), h('span',{class:'stat-label'},g(stats,'s3_label'))),
-          h('div', {class:'stat-item'}, h('span',{class:'stat-num'},g(stats,'s4_num')), h('span',{class:'stat-label'},g(stats,'s4_label')))
-        ),
-        h('section', {class:'beneficios'},
-          h('div', {class:'beneficios-header'},
-            h('span', {class:'section-tag'}, '¿Por qué unirse?'),
-            h('span', {class:'section-title'}, 'Beneficios que marcan la diferencia')
+        return h('div', {},
+          h('nav', {},
+            h('div', {className:'nav-logo'}, 'VEGA', h('span', {}, '.pe')),
+            h('a', {href:'#', className:'nav-pill'}, 'Registrarme')
           ),
-          h('div', {class:'beneficios-grid'},
-            h('div', {class:'beneficio-card'}, h('h3',null,g(bens,'b1_titulo')), h('p',null,g(bens,'b1_desc'))),
-            h('div', {class:'beneficio-card'}, h('h3',null,g(bens,'b2_titulo')), h('p',null,g(bens,'b2_desc'))),
-            h('div', {class:'beneficio-card'}, h('h3',null,g(bens,'b3_titulo')), h('p',null,g(bens,'b3_desc'))),
-            h('div', {class:'beneficio-card'}, h('h3',null,g(bens,'b4_titulo')), h('p',null,g(bens,'b4_desc')))
-          )
-        ),
-        h('section', {class:'como-funciona'},
-          h('div', {class:'pasos-layout'},
-            h('div', null,
-              h('span', {class:'section-tag'}, g(pasos,'tag') || '¿Cómo funciona?'),
-              h('span', {class:'section-title'}, g(pasos,'titulo')),
-              h('span', {class:'section-sub'}, g(pasos,'subtitulo')),
-              h('ul', {class:'pasos-list'},
-                h('li', {class:'paso'}, h('div',{class:'paso-num'},'1'), h('div',{class:'paso-info'}, h('h4',null,g(pasos,'p1_titulo')), h('p',null,g(pasos,'p1_desc')))),
-                h('li', {class:'paso'}, h('div',{class:'paso-num'},'2'), h('div',{class:'paso-info'}, h('h4',null,g(pasos,'p2_titulo')), h('p',null,g(pasos,'p2_desc')))),
-                h('li', {class:'paso'}, h('div',{class:'paso-num'},'3'), h('div',{class:'paso-info'}, h('h4',null,g(pasos,'p3_titulo')), h('p',null,g(pasos,'p3_desc'))))
-              )
+          h('section', {className:'hero'},
+            h('div', {className:'hero-badge'}, 'Programa de fidelización'),
+            h('h1', {}, g(hero,'titulo') || 'Bienvenido al Vega Cash'),
+            h('p', {className:'hero-sub'}, g(hero,'subtitulo')),
+            h('a', {href:'#', className:'hero-cta'}, g(hero,'cta') || 'Quiero unirme')
+          ),
+          h('div', {className:'stats-bar'},
+            h('div', {className:'stat-item'}, h('span',{className:'stat-num'},g(stats,'s1_num')), h('span',{className:'stat-label'},g(stats,'s1_label'))),
+            h('div', {className:'stat-item'}, h('span',{className:'stat-num'},g(stats,'s2_num')), h('span',{className:'stat-label'},g(stats,'s2_label'))),
+            h('div', {className:'stat-item'}, h('span',{className:'stat-num'},g(stats,'s3_num')), h('span',{className:'stat-label'},g(stats,'s3_label'))),
+            h('div', {className:'stat-item'}, h('span',{className:'stat-num'},g(stats,'s4_num')), h('span',{className:'stat-label'},g(stats,'s4_label')))
+          ),
+          h('section', {className:'beneficios'},
+            h('div', {className:'beneficios-header'},
+              h('div', {className:'section-tag'}, '¿Por qué unirse?'),
+              h('h2', {className:'section-title'}, 'Beneficios que marcan la diferencia')
             ),
-            h('div', {style:'background:#F7F6F3;border-radius:16px;padding:32px;text-align:center;color:#6B6860;font-size:13px;'}, 'Vista previa del perfil de miembro')
+            h('div', {className:'beneficios-grid'},
+              h('div', {className:'beneficio-card'}, h('h3',{},g(bens,'b1_titulo')), h('p',{},g(bens,'b1_desc'))),
+              h('div', {className:'beneficio-card'}, h('h3',{},g(bens,'b2_titulo')), h('p',{},g(bens,'b2_desc'))),
+              h('div', {className:'beneficio-card'}, h('h3',{},g(bens,'b3_titulo')), h('p',{},g(bens,'b3_desc'))),
+              h('div', {className:'beneficio-card'}, h('h3',{},g(bens,'b4_titulo')), h('p',{},g(bens,'b4_desc')))
+            )
+          ),
+          h('section', {className:'como-funciona'},
+            h('div', {className:'pasos-layout'},
+              h('div', {},
+                h('div', {className:'section-tag'}, g(pasos,'tag') || '¿Cómo funciona?'),
+                h('h2', {className:'section-title'}, g(pasos,'titulo')),
+                h('p', {className:'section-sub'}, g(pasos,'subtitulo')),
+                h('ul', {className:'pasos-list'},
+                  h('li', {className:'paso'}, h('div',{className:'paso-num'},'1'), h('div',{className:'paso-info'}, h('h4',{},g(pasos,'p1_titulo')), h('p',{},g(pasos,'p1_desc')))),
+                  h('li', {className:'paso'}, h('div',{className:'paso-num'},'2'), h('div',{className:'paso-info'}, h('h4',{},g(pasos,'p2_titulo')), h('p',{},g(pasos,'p2_desc')))),
+                  h('li', {className:'paso'}, h('div',{className:'paso-num'},'3'), h('div',{className:'paso-info'}, h('h4',{},g(pasos,'p3_titulo')), h('p',{},g(pasos,'p3_desc'))))
+                )
+              ),
+              h('div', {className:'pasos-visual'}, 'Vista previa del perfil de miembro')
+            )
+          ),
+          h('section', {className:'formulario-section'},
+            h('div', {className:'form-wrapper'},
+              h('div', {className:'section-tag'}, g(form,'tag')),
+              h('h2', {className:'section-title'}, g(form,'titulo')),
+              h('p', {className:'section-sub'}, g(form,'subtitulo')),
+              h('div', {className:'form-placeholder'}, '[ Formulario de registro ]')
+            )
+          ),
+          h('footer', {},
+            h('div', {className:'footer-logo'}, 'VEGA', h('span',{},'.pe')),
+            h('p', {}, '© 2026 Corporación VEGA SAC')
           )
-        ),
-        h('section', {class:'formulario-section'},
-          h('div', {class:'form-wrapper'},
-            h('span', {class:'section-tag'}, g(form,'tag')),
-            h('span', {class:'section-title'}, g(form,'titulo')),
-            h('span', {class:'section-sub'}, g(form,'subtitulo')),
-            h('div', {class:'form-placeholder'}, '[ Formulario de registro ]')
-          )
-        ),
-        h('footer', null,
-          h('div', {class:'footer-logo'}, 'VEGA', h('span',null,'.pe')),
-          h('p', null, '© 2026 Corporación VEGA SAC')
-        )
-      );
-    }
+        );
+      }
+    });
 
     CMS.registerPreviewTemplate('landing', LandingPreview);
   </script>
