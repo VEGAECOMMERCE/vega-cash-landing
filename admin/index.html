@@ -27,22 +27,29 @@
         }
 
         return h('div', {},
+          // NAV
           h('nav', {},
             h('div', {className:'nav-logo'}, 'VEGA', h('span', {}, '.pe')),
             h('a', {href:'#', className:'nav-pill'}, 'Registrarme')
           ),
+
+          // HERO
           h('section', {className:'hero'},
             h('div', {className:'hero-badge'}, 'Programa de fidelización'),
             h('h1', {}, g(hero,'titulo') || 'Bienvenido al Vega Cash'),
             h('p', {className:'hero-sub'}, g(hero,'subtitulo')),
             h('a', {href:'#', className:'hero-cta'}, g(hero,'cta') || 'Quiero unirme')
           ),
+
+          // STATS
           h('div', {className:'stats-bar'},
             h('div', {className:'stat-item'}, h('span',{className:'stat-num'},g(stats,'s1_num')), h('span',{className:'stat-label'},g(stats,'s1_label'))),
             h('div', {className:'stat-item'}, h('span',{className:'stat-num'},g(stats,'s2_num')), h('span',{className:'stat-label'},g(stats,'s2_label'))),
             h('div', {className:'stat-item'}, h('span',{className:'stat-num'},g(stats,'s3_num')), h('span',{className:'stat-label'},g(stats,'s3_label'))),
             h('div', {className:'stat-item'}, h('span',{className:'stat-num'},g(stats,'s4_num')), h('span',{className:'stat-label'},g(stats,'s4_label')))
           ),
+
+          // BENEFICIOS
           h('section', {className:'beneficios'},
             h('div', {className:'beneficios-header'},
               h('div', {className:'section-tag'}, '¿Por qué unirse?'),
@@ -55,6 +62,8 @@
               h('div', {className:'beneficio-card'}, h('h3',{},g(bens,'b4_titulo')), h('p',{},g(bens,'b4_desc')))
             )
           ),
+
+          // PASOS
           h('section', {className:'como-funciona'},
             h('div', {className:'pasos-layout'},
               h('div', {},
@@ -70,14 +79,44 @@
               h('div', {className:'pasos-visual'}, 'Vista previa del perfil de miembro')
             )
           ),
+
+          // FORMULARIO
           h('section', {className:'formulario-section'},
             h('div', {className:'form-wrapper'},
               h('div', {className:'section-tag'}, g(form,'tag')),
               h('h2', {className:'section-title'}, g(form,'titulo')),
               h('p', {className:'section-sub'}, g(form,'subtitulo')),
-              h('div', {className:'form-placeholder'}, '[ Formulario de registro ]')
+              h('div', {className:'form-card'},
+                h('div', {className:'form-grid'},
+                  h('div', {className:'form-group'}, h('label',{}, 'Nombres *'), h('input',{type:'text', placeholder:'Ej. Juan Carlos'})),
+                  h('div', {className:'form-group'}, h('label',{}, 'Apellidos *'), h('input',{type:'text', placeholder:'Ej. García López'})),
+                  h('div', {className:'form-group full'},
+                    h('label',{}, 'Tipo y número de documento *'),
+                    h('div', {className:'doc-row'},
+                      h('select',{}, h('option',{}, 'DNI'), h('option',{}, 'CE'), h('option',{}, 'Pasaporte')),
+                      h('input',{type:'text', placeholder:'Número de documento'})
+                    )
+                  ),
+                  h('div', {className:'form-group'}, h('label',{}, 'Fecha de nacimiento *'), h('input',{type:'date'})),
+                  h('div', {className:'form-group'}, h('label',{}, 'Celular *'), h('input',{type:'tel', placeholder:'9XX XXX XXX'})),
+                  h('div', {className:'form-group full'}, h('label',{}, 'Correo electrónico *'), h('input',{type:'email', placeholder:'tu@correo.com'})),
+                  h('div', {className:'form-group full'},
+                    h('label',{}, 'Distrito *'),
+                    h('select',{}, h('option',{}, 'Selecciona tu distrito'), h('option',{}, 'Miraflores'), h('option',{}, 'San Isidro'), h('option',{}, 'Surco'))
+                  ),
+                  h('hr', {className:'divider'}),
+                  h('div', {className:'terms-row'},
+                    h('input',{type:'checkbox'}),
+                    h('p', {className:'terms-text'}, g(form,'texto_legal') || 'Acepto los términos y condiciones y he leído la política de privacidad de Corporación VEGA SAC.')
+                  )
+                ),
+                h('button', {className:'submit-btn'}, 'Crear mi cuenta Vega Cash'),
+                h('p', {className:'privacy-note'}, '🔒 Tus datos están protegidos. Nunca los compartiremos con terceros.')
+              )
             )
           ),
+
+          // FOOTER
           h('footer', {},
             h('div', {className:'footer-logo'}, 'VEGA', h('span',{},'.pe')),
             h('p', {}, '© 2026 Corporación VEGA SAC')
