@@ -1,0 +1,44 @@
+{
+  "hero": {
+    "titulo": "Bienvenido al Vega Cash",
+    "subtitulo": "Accede a descuentos exclusivos, promociones anticipadas y beneficios personalizados solo para nuestros miembros.",
+    "cta": "Quiero unirme",
+    "imagen": ""
+  },
+  "stats": {
+    "s1_num": "16",
+    "s1_label": "Tiendas en Lima",
+    "s2_num": "+9,000",
+    "s2_label": "Clientes activos",
+    "s3_num": "100%",
+    "s3_label": "Beneficios exclusivos",
+    "s4_num": "Gratis",
+    "s4_label": "Registro sin costo"
+  },
+  "beneficios": {
+    "b1_titulo": "Descuentos exclusivos",
+    "b1_desc": "Ofertas y precios especiales disponibles solo para miembros del Vega Cash.",
+    "b2_titulo": "Promos anticipadas",
+    "b2_desc": "Entérate antes que nadie de las mejores ofertas y campañas de temporada.",
+    "b3_titulo": "Regalo de cumpleaños",
+    "b3_desc": "Recibe un beneficio especial durante el mes de tu cumpleaños como miembro.",
+    "b4_titulo": "Acumula y canjea",
+    "b4_desc": "Cada compra suma puntos que puedes usar en tu siguiente pedido en vega.pe."
+  },
+  "pasos": {
+    "tag": "¿Cómo funciona?",
+    "titulo": "En 3 pasos ya eres miembro",
+    "subtitulo": "Es rápido, gratuito y sin compromisos.",
+    "p1_titulo": "Completa el formulario",
+    "p1_desc": "Ingresa tus datos básicos: nombre, DNI, correo y distrito. Solo toma 2 minutos.",
+    "p2_titulo": "Confirma tu registro",
+    "p2_desc": "Te enviamos un correo de bienvenida con tu código de miembro y tus primeros beneficios.",
+    "p3_titulo": "Empieza a disfrutar",
+    "p3_desc": "Compra en vega.pe o en nuestras tiendas y accede automáticamente a tus descuentos."
+  },
+  "formulario": {
+    "tag": "Únete gratis",
+    "titulo": "Crea tu cuenta Vega Cash",
+    "subtitulo": "Completa tus datos y empieza a ahorrar hoy mismo."
+  }
+}
