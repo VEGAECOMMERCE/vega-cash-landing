@@ -70,3 +70,4 @@ collections:
               - { label: "Tag", name: "tag", widget: "string" }
               - { label: "Título", name: "titulo", widget: "string" }
               - { label: "Subtítulo", name: "subtitulo", widget: "string" }
+              - { label: "Texto legal (términos)", name: "texto_legal", widget: "text" }
