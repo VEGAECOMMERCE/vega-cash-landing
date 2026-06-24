@@ -1,6 +1,6 @@
 {
   "hero": {
-    "titulo": "Bienvenido al Vega Cash",
+    "titulo": "Bienvenido a VEGA CASH",
     "subtitulo": "Accede a descuentos exclusivos, promociones anticipadas y beneficios personalizados solo para nuestros miembros.",
     "cta": "Quiero unirme",
     "imagen": ""
@@ -46,6 +46,6 @@
     "privacidad_nota": "Tus datos están protegidos. Nunca los compartiremos con terceros.",
     "btn_texto": "Crear mi cuenta Vega Cash",
     "url_privacidad": "#",
-    "exito_desc": "Tu registro fue exitoso. En breve recibirás un correo de confirmación con tus beneficios de bienvenida."
+    "exito_desc": "Tu registro fue exitoso."
   }
 }
