@@ -72,10 +72,31 @@
   /* ── HERO ────────────────────────────────────── */
   .hero {
     background: var(--rojo);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     padding: 72px 40px 64px;
     text-align: center;
     position: relative;
     overflow: hidden;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 0;
+  }
+  .hero-overlay.no-image {
+    background: transparent;
+  }
+  .hero > *:not(.hero-overlay) {
+    position: relative;
+    z-index: 1;
   }
   .hero::before {
     content: '';
@@ -746,7 +767,8 @@
 </nav>
 
 <!-- HERO -->
-<section class="hero">
+<section class="hero" id="hero-section">
+  <div class="hero-overlay no-image" id="hero-overlay"></div>
   <h1 id="hero-titulo">PRONTO ACCEDERÁS A <em>VEGA CASH</em></h1>
   <p class="hero-sub" id="hero-subtitulo">Estamos preparando un programa de beneficios exclusivos para ti. Regístrate y sé el primero en enterarte.</p>
   <a href="#registro" class="hero-cta" id="hero-cta">
@@ -982,6 +1004,14 @@ fetch('/content.json')
       if (d.hero.titulo) document.getElementById('hero-titulo').innerHTML = d.hero.titulo;
       if (d.hero.subtitulo) document.getElementById('hero-subtitulo').textContent = d.hero.subtitulo;
       if (d.hero.cta) { const c = document.getElementById('hero-cta'); if(c) c.childNodes[0].textContent = d.hero.cta + ' '; }
+      if (d.hero.imagen) {
+        const s = document.getElementById('hero-section');
+        const o = document.getElementById('hero-overlay');
+        if (s && d.hero.imagen) {
+          s.style.backgroundImage = 'url(' + d.hero.imagen + ')';
+          if (o) o.classList.remove('no-image');
+        }
+      }
     }
     if (d.beneficios) {
       ['b1','b2','b3','b4'].forEach(b => {
