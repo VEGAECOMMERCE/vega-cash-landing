@@ -1,8 +1,8 @@
 {
   "hero": {
-    "titulo": "Bienvenido a VEGA CASH",
-    "subtitulo": "Accede a descuentos exclusivos, promociones anticipadas y beneficios personalizados solo para nuestros miembros.",
-    "cta": "Quiero unirme",
+    "titulo": "PRONTO ACCEDERÁS A <em>VEGA CASH</em>",
+    "subtitulo": "Estamos preparando un programa de beneficios exclusivos para ti. Regístrate y sé el primero en enterarte.",
+    "cta": "Quiero ser el primero en saber",
     "imagen": ""
   },
   "stats": {
@@ -17,35 +17,35 @@
   },
   "beneficios": {
     "b1_titulo": "Descuentos exclusivos",
-    "b1_desc": "Ofertas y precios especiales disponibles solo para miembros del Vega Cash.",
-    "b2_titulo": "Promos anticipadas",
-    "b2_desc": "Entérate antes que nadie de las mejores ofertas y campañas de temporada.",
-    "b3_titulo": "Regalo de cumpleaños",
-    "b3_desc": "Recibe un beneficio especial durante el mes de tu cumpleaños como miembro.",
-    "b4_titulo": "Acumula y canjea",
-    "b4_desc": "Cada compra suma puntos que puedes usar en tu siguiente pedido en vega.pe."
+    "b1_desc": "Precios especiales solo para miembros de VEGA CASH.",
+    "b2_titulo": "Acceso anticipado",
+    "b2_desc": "Sé el primero en enterarte de nuestros eventos exclusivos.",
+    "b3_titulo": "Acumula puntos",
+    "b3_desc": "Cada compra suma puntos para aumentar tu nivel.",
+    "b4_titulo": "VEGA CASHBACK",
+    "b4_desc": "Alcanza nuestro nivel Premium y accede a nuestro cashback exclusivo."
   },
   "pasos": {
-    "p3_desc": "Compra en vega.pe o en nuestras tiendas y accede automáticamente a tus descuentos.",
-    "p2_desc": "Te enviamos un correo de bienvenida con tu código de miembro y tus primeros beneficios.",
-    "p1_desc": "Ingresa tus datos básicos: nombre, DNI, correo y distrito. Solo toma 2 minutos.",
-    "p3_titulo": "Empieza a disfrutar",
-    "p2_titulo": "Confirma tu registro",
-    "p1_titulo": "Completa el formulario",
+    "tag": "¿Cómo funciona?",
+    "titulo": "YA SERÁS MIEMBRO",
     "subtitulo": "Es rápido, gratuito y sin compromisos.",
-    "titulo": "En 3 pasos ya eres miembro",
-    "tag": "¿Cómo funciona?"
+    "p1_titulo": "Completa el formulario",
+    "p1_desc": "Ingresa tus datos básicos: nombre, DNI, correo y distrito. Solo toma 2 minutos.",
+    "p2_titulo": "Empezarás a disfrutar",
+    "p2_desc": "Compra en Tiendas Vega y accederás automáticamente a tus descuentos.",
+    "p3_titulo": "",
+    "p3_desc": ""
   },
   "formulario": {
-    "url_terminos": "#",
-    "exito_titulo": "¡Bienvenido al Vega Cash!",
-    "subtitulo": "Completa tus datos y empieza a ahorrar hoy mismo.",
-    "titulo": "Crea tu cuenta Vega Cash",
     "tag": "Únete gratis",
-    "texto_legal": "Acepto los términos y condiciones y he leído la política de privacidad de Corporación VEGA SAC. Autorizo el tratamiento de mis datos personales para recibir comunicaciones del Vega Cash.",
-    "privacidad_nota": "Tus datos están protegidos. Nunca los compartiremos con terceros.",
+    "titulo": "CREA TU CUENTA VEGA CASH",
+    "subtitulo": "Completa tus datos y pronto empezarás a ahorrar.",
     "btn_texto": "Crear mi cuenta Vega Cash",
+    "privacidad_nota": "Tus datos están protegidos. Nunca los compartiremos con terceros.",
+    "texto_legal": "",
+    "url_terminos": "#",
     "url_privacidad": "#",
-    "exito_desc": "Tu registro fue exitoso."
+    "exito_titulo": "¡Bienvenido a Vega Cash!",
+    "exito_desc": "Tu registro fue exitoso. En breve recibirás un correo de confirmación con tus beneficios de bienvenida."
   }
 }
