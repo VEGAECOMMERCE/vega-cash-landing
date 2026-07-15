@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vega Cash — Panel de Administración</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --rojo: #CC0000;
+  --rojo-oscuro: #A80000;
+  --blanco: #FFFFFF;
+  --gris-fondo: #F7F6F3;
+  --gris-borde: #E5E3DC;
+  --gris-texto: #6B6860;
+  --negro: #1A1917;
+  --verde: #1D9E75;
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+body { font-family: var(--font-body); background: var(--gris-fondo); color: var(--negro); min-height: 100vh; }
+
+/* ── LOGIN ── */
+#login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--negro);
+}
+.login-card {
+  background: white;
+  border-radius: 20px;
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+.login-logo {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--rojo);
+  margin-bottom: 4px;
+}
+.login-logo span { color: var(--negro); }
+.login-subtitle {
+  font-size: 13px;
+  color: var(--gris-texto);
+  margin-bottom: 32px;
+}
+.login-label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gris-texto);
+  display: block;
+  text-align: left;
+  margin-bottom: 8px;
+}
+.pin-input {
+  width: 100%;
+  height: 52px;
+  border: 2px solid var(--gris-borde);
+  border-radius: 10px;
+  font-size: 24px;
+  font-family: var(--font-display);
+  text-align: center;
+  letter-spacing: 8px;
+  color: var(--negro);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.pin-input:focus { border-color: var(--rojo); }
+.login-btn {
+  width: 100%;
+  height: 48px;
+  background: var(--rojo);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: background 0.15s;
+}
+.login-btn:hover { background: var(--rojo-oscuro); }
+.login-error {
+  color: var(--rojo);
+  font-size: 13px;
+  margin-top: 10px;
+  display: none;
+}
+
+/* ── ADMIN ── */
+#admin-screen { display: none; }
+
+.topbar {
+  background: var(--negro);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.topbar-logo {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+}
+.topbar-logo span { color: var(--rojo); }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.topbar-site {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+}
+.btn-salir {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-salir:hover { background: rgba(255,255,255,0.2); }
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  min-height: calc(100vh - 56px);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background: white;
+  border-right: 1px solid var(--gris-borde);
+  padding: 24px 0;
+}
+.sidebar-section {
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+.sidebar-label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #aaa8a0;
+  padding: 0 8px;
+  margin-bottom: 4px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gris-texto);
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+.nav-item:hover { background: var(--gris-fondo); color: var(--negro); }
+.nav-item.active { background: #FFF0F0; color: var(--rojo); font-weight: 600; }
+.nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+
+/* ── CONTENT ── */
+.content {
+  padding: 32px;
+  overflow-y: auto;
+}
+.panel { display: none; }
+.panel.active { display: block; }
+
+.panel-header {
+  margin-bottom: 28px;
+}
+.panel-title {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--negro);
+  margin-bottom: 4px;
+}
+.panel-desc {
+  font-size: 13px;
+  color: var(--gris-texto);
+}
+
+/* ── FORM ELEMENTS ── */
+.form-section {
+  background: white;
+  border: 1px solid var(--gris-borde);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.form-section-title {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--negro);
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--gris-borde);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-grid.single { grid-template-columns: 1fr; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #888680;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  border: 1.5px solid var(--gris-borde);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: var(--font-body);
+  color: var(--negro);
+  background: white;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.form-group input:focus,
+.form-group textarea:focus { border-color: var(--rojo); box-shadow: 0 0 0 3px rgba(204,0,0,0.06); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-hint { font-size: 11px; color: #aaa8a0; }
+
+/* ── TOGGLE ── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--gris-borde);
+}
+.toggle-row:last-child { border-bottom: none; }
+.toggle-info h4 { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--negro); }
+.toggle-info p { font-size: 12px; color: var(--gris-texto); margin-top: 2px; }
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+.toggle input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #ddd;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  left: 3px;
+  top: 3px;
+  transition: 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle input:checked + .toggle-slider { background: var(--verde); }
+.toggle input:checked + .toggle-slider::before { transform: translateX(20px); }
+
+/* ── BANNER UPLOAD ── */
+.banner-upload {
+  border: 2px dashed var(--gris-borde);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+.banner-upload:hover { border-color: var(--rojo); background: #fff8f8; }
+.banner-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.banner-upload-icon { font-size: 32px; margin-bottom: 12px; }
+.banner-upload-text { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--negro); margin-bottom: 4px; }
+.banner-upload-hint { font-size: 12px; color: var(--gris-texto); }
+.banner-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-top: 16px;
+  display: none;
+}
+.banner-remove {
+  display: none;
+  margin-top: 10px;
+  background: none;
+  border: 1px solid var(--gris-borde);
+  border-radius: 6px;
+  padding: 5px 12px;
+  font-size: 12px;
+  color: var(--gris-texto);
+  cursor: pointer;
+}
+.banner-remove:hover { border-color: var(--rojo); color: var(--rojo); }
+
+/* ── SAVE BAR ── */
+.save-bar {
+  position: fixed;
+  bottom: 0;
+  left: 220px;
+  right: 0;
+  background: white;
+  border-top: 1px solid var(--gris-borde);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+}
+.save-status { font-size: 13px; color: var(--gris-texto); }
+.save-status.saved { color: var(--verde); font-weight: 500; }
+.save-status.error { color: var(--rojo); }
+.save-actions { display: flex; gap: 10px; }
+.btn-preview {
+  height: 40px;
+  padding: 0 20px;
+  border: 1.5px solid var(--gris-borde);
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--negro);
+  background: white;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+.btn-preview:hover { border-color: var(--negro); }
+.btn-save {
+  height: 40px;
+  padding: 0 24px;
+  background: var(--rojo);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-save:hover { background: var(--rojo-oscuro); }
+.btn-save:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.content { padding-bottom: 90px; }
+
+/* ── PIN SETTINGS ── */
+.pin-change-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  max-width: 400px;
+}
+
+@media (max-width: 768px) {
+  .admin-layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  .save-bar { left: 0; }
+  .form-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">VEGA<span>.pe</span></div>
+    <div class="login-subtitle">Panel de administración — Vega Cash</div>
+    <label class="login-label">PIN de acceso</label>
+    <input type="password" class="pin-input" id="pin-input" maxlength="6" placeholder="••••••" onkeydown="if(event.key==='Enter') verificarPin()">
+    <button class="login-btn" onclick="verificarPin()">Ingresar</button>
+    <div class="login-error" id="login-error">PIN incorrecto. Inténtalo de nuevo.</div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin-screen">
+  <div class="topbar">
+    <div class="topbar-logo">VEGA<span>.pe</span> <span style="font-weight:400;color:rgba(255,255,255,0.4);font-size:13px;margin-left:8px;">/ Admin Vega Cash</span></div>
+    <div class="topbar-right">
+      <span class="topbar-site">beneficios.vega.pe</span>
+      <a href="https://beneficios.vega.pe" target="_blank" class="btn-salir">Ver sitio ↗</a>
+      <button class="btn-salir" onclick="cerrarSesion()">Salir</button>
+    </div>
+  </div>
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Contenido</div>
+        <button class="nav-item active" onclick="showPanel('hero')"><span class="icon">🖼️</span> Hero / Banner</button>
+        <button class="nav-item" onclick="showPanel('stats')"><span class="icon">📊</span> Estadísticas</button>
+        <button class="nav-item" onclick="showPanel('beneficios')"><span class="icon">⭐</span> Beneficios</button>
+        <button class="nav-item" onclick="showPanel('pasos')"><span class="icon">📋</span> Cómo funciona</button>
+        <button class="nav-item" onclick="showPanel('formulario')"><span class="icon">📝</span> Formulario</button>
+      </div>
+      <div class="sidebar-section" style="margin-top:16px;">
+        <div class="sidebar-label">Configuración</div>
+        <button class="nav-item" onclick="showPanel('visibilidad')"><span class="icon">👁️</span> Visibilidad</button>
+        <button class="nav-item" onclick="showPanel('ajustes')"><span class="icon">⚙️</span> Ajustes</button>
+      </div>
+    </div>
+
+    <!-- PANELS -->
+    <div class="content">
+
+      <!-- HERO -->
+      <div class="panel active" id="panel-hero">
+        <div class="panel-header">
+          <div class="panel-title">Hero / Banner</div>
+          <div class="panel-desc">Imagen principal, título y botón de llamada a la acción.</div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">🖼️ Imagen de fondo</div>
+          <div class="banner-upload" onclick="document.getElementById('banner-file').click()">
+            <input type="file" id="banner-file" accept="image/*" onchange="previsualizarBanner(event)">
+            <div class="banner-upload-icon">📤</div>
+            <div class="banner-upload-text">Haz clic o arrastra tu imagen aquí</div>
+            <div class="banner-upload-hint">JPG, PNG o WebP — recomendado 1440×600px</div>
+          </div>
+          <img id="banner-preview" class="banner-preview" alt="Preview del banner">
+          <button class="banner-remove" id="banner-remove" onclick="eliminarBanner()">✕ Quitar imagen</button>
+          <div style="margin-top:12px;">
+            <div class="form-group">
+              <label>URL de imagen (si ya tienes un enlace)</label>
+              <input type="text" id="hero-imagen" placeholder="https://... o dejar vacío para usar fondo rojo" oninput="actualizarPreviewBanner(this.value)">
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">✏️ Textos del hero</div>
+          <div class="form-grid single">
+            <div class="form-group">
+              <label>Título principal</label>
+              <input type="text" id="hero-titulo" placeholder="PRONTO ACCEDERÁS A VEGA CASH">
+              <span class="form-hint">Puedes usar &lt;em&gt;texto&lt;/em&gt; para subrayar palabras</span>
+            </div>
+            <div class="form-group">
+              <label>Subtítulo</label>
+              <textarea id="hero-subtitulo" rows="2" placeholder="Descripción debajo del título"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Texto del botón</label>
+              <input type="text" id="hero-cta" placeholder="Quiero ser el primero en saber">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="panel" id="panel-stats">
+        <div class="panel-header">
+          <div class="panel-title">Estadísticas</div>
+          <div class="panel-desc">Los 4 números que aparecen en la barra oscura debajo del hero.</div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📊 Números destacados</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Stat 1 — Número</label><input type="text" id="s1-num" placeholder="16"></div>
+            <div class="form-group"><label>Stat 1 — Etiqueta</label><input type="text" id="s1-label" placeholder="Tiendas en Lima"></div>
+            <div class="form-group"><label>Stat 2 — Número</label><input type="text" id="s2-num" placeholder="+9,000"></div>
+            <div class="form-group"><label>Stat 2 — Etiqueta</label><input type="text" id="s2-label" placeholder="Clientes activos"></div>
+            <div class="form-group"><label>Stat 3 — Número</label><input type="text" id="s3-num" placeholder="100%"></div>
+            <div class="form-group"><label>Stat 3 — Etiqueta</label><input type="text" id="s3-label" placeholder="Beneficios exclusivos"></div>
+            <div class="form-group"><label>Stat 4 — Número</label><input type="text" id="s4-num" placeholder="Gratis"></div>
+            <div class="form-group"><label>Stat 4 — Etiqueta</label><input type="text" id="s4-label" placeholder="Registro sin costo"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BENEFICIOS -->
+      <div class="panel" id="panel-beneficios">
+        <div class="panel-header">
+          <div class="panel-title">Beneficios</div>
+          <div class="panel-desc">Las 4 tarjetas de beneficios que aparecen en la sección ¿Por qué unirse?</div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">⭐ Beneficio 1</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Título</label><input type="text" id="b1-titulo" placeholder="Descuentos exclusivos"></div>
+            <div class="form-group"><label>Descripción</label><input type="text" id="b1-desc" placeholder="Precios especiales solo para miembros..."></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">⭐ Beneficio 2</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Título</label><input type="text" id="b2-titulo" placeholder="Acceso anticipado"></div>
+            <div class="form-group"><label>Descripción</label><input type="text" id="b2-desc" placeholder="Sé el primero en enterarte..."></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">⭐ Beneficio 3</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Título</label><input type="text" id="b3-titulo" placeholder="Acumula puntos"></div>
+            <div class="form-group"><label>Descripción</label><input type="text" id="b3-desc" placeholder="Cada compra suma puntos..."></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">⭐ Beneficio 4</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Título</label><input type="text" id="b4-titulo" placeholder="VEGA CASHBACK"></div>
+            <div class="form-group"><label>Descripción</label><input type="text" id="b4-desc" placeholder="Alcanza nuestro nivel Premium..."></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PASOS -->
+      <div class="panel" id="panel-pasos">
+        <div class="panel-header">
+          <div class="panel-title">Cómo funciona</div>
+          <div class="panel-desc">Los pasos del proceso de registro.</div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📋 Encabezado de sección</div>
+          <div class="form-grid single">
+            <div class="form-group"><label>Tag (etiqueta pequeña)</label><input type="text" id="pasos-tag" placeholder="¿Cómo funciona?"></div>
+            <div class="form-group"><label>Título</label><input type="text" id="pasos-titulo" placeholder="YA SERÁS MIEMBRO"></div>
+            <div class="form-group"><label>Subtítulo</label><input type="text" id="pasos-subtitulo" placeholder="Es rápido, gratuito y sin compromisos."></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">1️⃣ Paso 1</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Título</label><input type="text" id="p1-titulo" placeholder="Completa el formulario"></div>
+            <div class="form-group"><label>Descripción</label><input type="text" id="p1-desc" placeholder="Ingresa tus datos básicos..."></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">2️⃣ Paso 2</div>
+          <div class="form-grid">
+            <div class="form-group"><label>Título</label><input type="text" id="p2-titulo" placeholder="Empezarás a disfrutar"></div>
+            <div class="form-group"><label>Descripción</label><input type="text" id="p2-desc" placeholder="Compra en Tiendas Vega..."></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORMULARIO -->
+      <div class="panel" id="panel-formulario">
+        <div class="panel-header">
+          <div class="panel-title">Formulario de registro</div>
+          <div class="panel-desc">Textos del formulario, textos legales y mensajes de confirmación.</div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📝 Encabezado</div>
+          <div class="form-grid single">
+            <div class="form-group"><label>Tag</label><input type="text" id="form-tag" placeholder="Únete gratis"></div>
+            <div class="form-group"><label>Título</label><input type="text" id="form-titulo" placeholder="CREA TU CUENTA VEGA CASH"></div>
+            <div class="form-group"><label>Subtítulo</label><input type="text" id="form-subtitulo" placeholder="Completa tus datos y pronto empezarás a ahorrar."></div>
+            <div class="form-group"><label>Texto del botón enviar</label><input type="text" id="btn-texto" placeholder="Crear mi cuenta Vega Cash"></div>
+            <div class="form-group"><label>Nota de privacidad (bajo el botón)</label><input type="text" id="privacidad-nota" placeholder="Tus datos están protegidos..."></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">⚖️ Textos legales</div>
+          <div class="form-grid single">
+            <div class="form-group">
+              <label>Texto de términos y condiciones</label>
+              <textarea id="texto-legal" rows="3" placeholder="Acepto los términos y condiciones..."></textarea>
+            </div>
+            <div class="form-group"><label>URL — Términos y condiciones</label><input type="text" id="url-terminos" placeholder="https://vega.pe/terminos"></div>
+            <div class="form-group"><label>URL — Política de privacidad</label><input type="text" id="url-privacidad" placeholder="https://vega.pe/privacidad"></div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">✅ Mensaje de éxito (tras registrarse)</div>
+          <div class="form-grid single">
+            <div class="form-group"><label>Título</label><input type="text" id="exito-titulo" placeholder="¡Bienvenido a Vega Cash!"></div>
+            <div class="form-group"><label>Descripción</label><textarea id="exito-desc" rows="2" placeholder="Tu registro fue exitoso..."></textarea></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISIBILIDAD -->
+      <div class="panel" id="panel-visibilidad">
+        <div class="panel-header">
+          <div class="panel-title">Visibilidad de secciones</div>
+          <div class="panel-desc">Activa o desactiva secciones completas de la landing.</div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">👁️ Secciones</div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Hero / Banner</h4>
+              <p>Sección principal con imagen y título</p>
+            </div>
+            <label class="toggle"><input type="checkbox" id="vis-hero" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Estadísticas</h4>
+              <p>Barra de números (tiendas, clientes, etc.)</p>
+            </div>
+            <label class="toggle"><input type="checkbox" id="vis-stats" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Beneficios</h4>
+              <p>Las 4 tarjetas de beneficios</p>
+            </div>
+            <label class="toggle"><input type="checkbox" id="vis-beneficios" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Cómo funciona</h4>
+              <p>Sección con los pasos del proceso</p>
+            </div>
+            <label class="toggle"><input type="checkbox" id="vis-pasos"><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <h4>Formulario de registro</h4>
+              <p>Formulario de inscripción al programa</p>
+            </div>
+            <label class="toggle"><input type="checkbox" id="vis-formulario" checked><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- AJUSTES -->
+      <div class="panel" id="panel-ajustes">
+        <div class="panel-header">
+          <div class="panel-title">Ajustes</div>
+          <div class="panel-desc">Configuración del panel de administración.</div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">🔐 Cambiar PIN de acceso</div>
+          <div class="pin-change-form">
+            <div class="form-group">
+              <label>PIN actual</label>
+              <input type="password" id="pin-actual" maxlength="6" placeholder="••••••">
+            </div>
+            <div class="form-group">
+              <label>Nuevo PIN</label>
+              <input type="password" id="pin-nuevo" maxlength="6" placeholder="••••••">
+            </div>
+            <div class="form-group">
+              <label>Confirmar nuevo PIN</label>
+              <input type="password" id="pin-confirmar" maxlength="6" placeholder="••••••">
+            </div>
+          </div>
+          <button onclick="cambiarPin()" style="margin-top:16px;height:40px;padding:0 20px;background:var(--rojo);color:white;border:none;border-radius:8px;font-family:var(--font-display);font-size:13px;font-weight:600;cursor:pointer;">Cambiar PIN</button>
+          <div id="pin-msg" style="margin-top:10px;font-size:13px;display:none;"></div>
+          <div style="margin-top:20px;padding:16px;background:var(--gris-fondo);border-radius:10px;">
+            <p style="font-size:12px;color:var(--gris-texto);">⚠️ El PIN se guarda en este navegador. Para cambiar el PIN en otro dispositivo, ingrésalo manualmente en ajustes.</p>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">🔗 GitHub — Publicación automática</div>
+          <div class="form-grid single">
+            <div class="form-group">
+              <label>Token de GitHub</label>
+              <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx">
+              <span class="form-hint">Token con permisos de escritura al repo. Se guarda solo en este navegador.</span>
+            </div>
+          </div>
+          <button onclick="guardarToken()" style="margin-top:12px;height:36px;padding:0 16px;background:var(--negro);color:white;border:none;border-radius:8px;font-family:var(--font-display);font-size:12px;font-weight:600;cursor:pointer;">Guardar token</button>
+          <div id="token-msg" style="margin-top:8px;font-size:12px;display:none;"></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /admin-layout -->
+
+  <!-- SAVE BAR -->
+  <div class="save-bar">
+    <div class="save-status" id="save-status">Los cambios no publicados se perderán si cierras la página.</div>
+    <div class="save-actions">
+      <a href="https://beneficios.vega.pe" target="_blank" class="btn-preview">Ver sitio ↗</a>
+      <button class="btn-save" id="btn-save" onclick="guardarYPublicar()">
+        <span>💾</span> Guardar y publicar
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────
+const PIN_DEFAULT = '1234';
+const REPO = 'VEGAECOMMERCE/vega-cash-landing';
+const BRANCH = 'main';
+const CONTENT_FILE = 'content.json';
+
+// ── LOGIN ────────────────────────────────────────────────────────
+function getPIN() {
+  return localStorage.getItem('vega_cash_pin') || PIN_DEFAULT;
+}
+
+function verificarPin() {
+  const input = document.getElementById('pin-input').value;
+  if (input === getPIN()) {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-screen').style.display = 'block';
+    cargarDatos();
+    cargarToken();
+  } else {
+    const err = document.getElementById('login-error');
+    err.style.display = 'block';
+    document.getElementById('pin-input').value = '';
+    setTimeout(() => err.style.display = 'none', 3000);
+  }
+}
+
+function cerrarSesion() {
+  document.getElementById('admin-screen').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pin-input').value = '';
+}
+
+function cambiarPin() {
+  const actual = document.getElementById('pin-actual').value;
+  const nuevo = document.getElementById('pin-nuevo').value;
+  const conf = document.getElementById('pin-confirmar').value;
+  const msg = document.getElementById('pin-msg');
+
+  if (actual !== getPIN()) {
+    msg.style.display = 'block'; msg.style.color = 'var(--rojo)';
+    msg.textContent = 'PIN actual incorrecto.'; return;
+  }
+  if (nuevo.length < 4) {
+    msg.style.display = 'block'; msg.style.color = 'var(--rojo)';
+    msg.textContent = 'El nuevo PIN debe tener al menos 4 dígitos.'; return;
+  }
+  if (nuevo !== conf) {
+    msg.style.display = 'block'; msg.style.color = 'var(--rojo)';
+    msg.textContent = 'Los PINs no coinciden.'; return;
+  }
+  localStorage.setItem('vega_cash_pin', nuevo);
+  msg.style.display = 'block'; msg.style.color = 'var(--verde)';
+  msg.textContent = '✅ PIN actualizado correctamente.';
+  document.getElementById('pin-actual').value = '';
+  document.getElementById('pin-nuevo').value = '';
+  document.getElementById('pin-confirmar').value = '';
+}
+
+// ── TOKEN ────────────────────────────────────────────────────────
+function cargarToken() {
+  const t = localStorage.getItem('vega_cash_gh_token') || '';
+  document.getElementById('gh-token').value = t;
+}
+
+function guardarToken() {
+  const t = document.getElementById('gh-token').value.trim();
+  localStorage.setItem('vega_cash_gh_token', t);
+  const msg = document.getElementById('token-msg');
+  msg.style.display = 'block'; msg.style.color = 'var(--verde)';
+  msg.textContent = '✅ Token guardado.';
+  setTimeout(() => msg.style.display = 'none', 2000);
+}
+
+// ── NAVIGATION ───────────────────────────────────────────────────
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ── BANNER ───────────────────────────────────────────────────────
+let bannerBase64 = '';
+
+function previsualizarBanner(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    bannerBase64 = ev.target.result;
+    document.getElementById('banner-preview').src = bannerBase64;
+    document.getElementById('banner-preview').style.display = 'block';
+    document.getElementById('banner-remove').style.display = 'inline-block';
+    document.getElementById('hero-imagen').value = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+function actualizarPreviewBanner(url) {
+  if (url) {
+    document.getElementById('banner-preview').src = url;
+    document.getElementById('banner-preview').style.display = 'block';
+    document.getElementById('banner-remove').style.display = 'inline-block';
+    bannerBase64 = '';
+  }
+}
+
+function eliminarBanner() {
+  bannerBase64 = '';
+  document.getElementById('banner-preview').src = '';
+  document.getElementById('banner-preview').style.display = 'none';
+  document.getElementById('banner-remove').style.display = 'none';
+  document.getElementById('hero-imagen').value = '';
+  document.getElementById('banner-file').value = '';
+}
+
+// ── CARGAR DATOS ─────────────────────────────────────────────────
+async function cargarDatos() {
+  try {
+    const res = await fetch('/content.json?t=' + Date.now());
+    const d = await res.json();
+
+    // Hero
+    setVal('hero-titulo', d.hero?.titulo || '');
+    setVal('hero-subtitulo', d.hero?.subtitulo || '');
+    setVal('hero-cta', d.hero?.cta || '');
+    setVal('hero-imagen', d.hero?.imagen || '');
+    if (d.hero?.imagen) actualizarPreviewBanner(d.hero.imagen);
+
+    // Stats
+    ['s1','s2','s3','s4'].forEach(s => {
+      setVal(s+'-num', d.stats?.[s+'_num'] || '');
+      setVal(s+'-label', d.stats?.[s+'_label'] || '');
+    });
+
+    // Beneficios
+    ['b1','b2','b3','b4'].forEach(b => {
+      setVal(b+'-titulo', d.beneficios?.[b+'_titulo'] || '');
+      setVal(b+'-desc', d.beneficios?.[b+'_desc'] || '');
+    });
+
+    // Pasos
+    setVal('pasos-tag', d.pasos?.tag || '');
+    setVal('pasos-titulo', d.pasos?.titulo || '');
+    setVal('pasos-subtitulo', d.pasos?.subtitulo || '');
+    setVal('p1-titulo', d.pasos?.p1_titulo || '');
+    setVal('p1-desc', d.pasos?.p1_desc || '');
+    setVal('p2-titulo', d.pasos?.p2_titulo || '');
+    setVal('p2-desc', d.pasos?.p2_desc || '');
+
+    // Formulario
+    setVal('form-tag', d.formulario?.tag || '');
+    setVal('form-titulo', d.formulario?.titulo || '');
+    setVal('form-subtitulo', d.formulario?.subtitulo || '');
+    setVal('btn-texto', d.formulario?.btn_texto || '');
+    setVal('privacidad-nota', d.formulario?.privacidad_nota || '');
+    setVal('texto-legal', d.formulario?.texto_legal || '');
+    setVal('url-terminos', d.formulario?.url_terminos || '');
+    setVal('url-privacidad', d.formulario?.url_privacidad || '');
+    setVal('exito-titulo', d.formulario?.exito_titulo || '');
+    setVal('exito-desc', d.formulario?.exito_desc || '');
+
+    // Visibilidad
+    if (d.visibilidad) {
+      Object.keys(d.visibilidad).forEach(k => {
+        const el = document.getElementById('vis-' + k);
+        if (el) el.checked = d.visibilidad[k];
+      });
+    }
+
+  } catch(e) {
+    console.log('No se pudo cargar content.json:', e);
+  }
+}
+
+function setVal(id, val) {
+  const el = document.getElementById(id);
+  if (el) el.value = val;
+}
+
+// ── GUARDAR Y PUBLICAR ───────────────────────────────────────────
+async function guardarYPublicar() {
+  const token = localStorage.getItem('vega_cash_gh_token') || '';
+  if (!token) {
+    setStatus('⚠️ Agrega tu token de GitHub en Ajustes para publicar.', 'error');
+    showPanel('ajustes');
+    return;
+  }
+
+  const btn = document.getElementById('btn-save');
+  btn.disabled = true;
+  btn.innerHTML = '<span>⏳</span> Publicando...';
+  setStatus('Guardando cambios...', '');
+
+  // Determinar imagen
+  let imagenFinal = document.getElementById('hero-imagen').value.trim();
+  if (bannerBase64) {
+    // Subir imagen a GitHub
+    try {
+      imagenFinal = await subirImagenGitHub(token);
+    } catch(e) {
+      setStatus('❌ Error subiendo imagen: ' + e.message, 'error');
+      btn.disabled = false; btn.innerHTML = '<span>💾</span> Guardar y publicar';
+      return;
+    }
+  }
+
+  const data = {
+    hero: {
+      titulo: getVal('hero-titulo'),
+      subtitulo: getVal('hero-subtitulo'),
+      cta: getVal('hero-cta'),
+      imagen: imagenFinal
+    },
+    stats: {
+      s1_num: getVal('s1-num'), s1_label: getVal('s1-label'),
+      s2_num: getVal('s2-num'), s2_label: getVal('s2-label'),
+      s3_num: getVal('s3-num'), s3_label: getVal('s3-label'),
+      s4_num: getVal('s4-num'), s4_label: getVal('s4-label')
+    },
+    beneficios: {
+      b1_titulo: getVal('b1-titulo'), b1_desc: getVal('b1-desc'),
+      b2_titulo: getVal('b2-titulo'), b2_desc: getVal('b2-desc'),
+      b3_titulo: getVal('b3-titulo'), b3_desc: getVal('b3-desc'),
+      b4_titulo: getVal('b4-titulo'), b4_desc: getVal('b4-desc')
+    },
+    pasos: {
+      tag: getVal('pasos-tag'), titulo: getVal('pasos-titulo'),
+      subtitulo: getVal('pasos-subtitulo'),
+      p1_titulo: getVal('p1-titulo'), p1_desc: getVal('p1-desc'),
+      p2_titulo: getVal('p2-titulo'), p2_desc: getVal('p2-desc'),
+      p3_titulo: '', p3_desc: ''
+    },
+    formulario: {
+      tag: getVal('form-tag'), titulo: getVal('form-titulo'),
+      subtitulo: getVal('form-subtitulo'), btn_texto: getVal('btn-texto'),
+      privacidad_nota: getVal('privacidad-nota'), texto_legal: getVal('texto-legal'),
+      url_terminos: getVal('url-terminos'), url_privacidad: getVal('url-privacidad'),
+      exito_titulo: getVal('exito-titulo'), exito_desc: getVal('exito-desc')
+    },
+    visibilidad: {
+      hero: document.getElementById('vis-hero').checked,
+      stats: document.getElementById('vis-stats').checked,
+      beneficios: document.getElementById('vis-beneficios').checked,
+      pasos: document.getElementById('vis-pasos').checked,
+      formulario: document.getElementById('vis-formulario').checked
+    }
+  };
+
+  try {
+    // Obtener SHA actual del archivo
+    const shaRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${CONTENT_FILE}?ref=${BRANCH}`, {
+      headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github.v3+json' }
+    });
+    const shaData = await shaRes.json();
+    const sha = shaData.sha;
+
+    // Commit del content.json
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+    const commitRes = await fetch(`https://api.github.com/repos/${REPO}/contents/${CONTENT_FILE}`, {
+      method: 'PUT',
+      headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        message: 'Admin Vega Cash: actualizar contenido',
+        content: content,
+        sha: sha,
+        branch: BRANCH
+      })
+    });
+
+    if (commitRes.ok) {
+      setStatus('✅ Publicado correctamente. Los cambios aparecerán en ~30 segundos.', 'saved');
+      bannerBase64 = '';
+    } else {
+      const err = await commitRes.json();
+      setStatus('❌ Error: ' + (err.message || 'No se pudo publicar'), 'error');
+    }
+  } catch(e) {
+    setStatus('❌ Error de conexión: ' + e.message, 'error');
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<span>💾</span> Guardar y publicar';
+}
+
+async function subirImagenGitHub(token) {
+  const file = document.getElementById('banner-file').files[0];
+  if (!file) return '';
+  const ext = file.name.split('.').pop();
+  const filename = 'images/banner-hero.' + ext;
+  const base64 = bannerBase64.split(',')[1];
+
+  // Ver si existe para obtener SHA
+  let sha = '';
+  try {
+    const r = await fetch(`https://api.github.com/repos/${REPO}/contents/${filename}?ref=${BRANCH}`, {
+      headers: { Authorization: 'token ' + token }
+    });
+    if (r.ok) { const d = await r.json(); sha = d.sha; }
+  } catch(e) {}
+
+  const body = { message: 'Admin: subir banner hero', content: base64, branch: BRANCH };
+  if (sha) body.sha = sha;
+
+  const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${filename}`, {
+    method: 'PUT',
+    headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+
+  if (!res.ok) throw new Error('No se pudo subir la imagen');
+  return '/' + filename;
+}
+
+function getVal(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function setStatus(msg, type) {
+  const el = document.getElementById('save-status');
+  el.textContent = msg;
+  el.className = 'save-status' + (type ? ' ' + type : '');
+}
+</script>
+</body>
+</html>
