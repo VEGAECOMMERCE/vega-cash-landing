@@ -47,5 +47,12 @@
     "url_privacidad": "#",
     "exito_titulo": "¡Bienvenido a Vega Cash!",
     "exito_desc": "Tu registro fue exitoso. En breve recibirás un correo de confirmación con tus beneficios de bienvenida."
+  },
+  "visibilidad": {
+    "hero": true,
+    "stats": true,
+    "beneficios": true,
+    "pasos": false,
+    "formulario": true
   }
 }
