@@ -778,7 +778,7 @@
 </section>
 
 <!-- BENEFICIOS -->
-<section class="beneficios">
+<section class="beneficios" id="sec-beneficios">
   <div class="beneficios-header">
     <div class="section-tag">¿Por qué unirse?</div>
     <h2 class="section-title">Beneficios que marcan la diferencia</h2>
@@ -817,7 +817,7 @@
 </section>
 
 <!-- CÓMO FUNCIONA -->
-<section class="como-funciona">
+<section class="como-funciona" id="sec-pasos">
   <div class="pasos-layout">
     <div class="pasos-left">
       <div class="section-tag" id="pasos-tag">¿Cómo funciona?</div>
@@ -877,7 +877,7 @@
 </section>
 
 <!-- FORMULARIO -->
-<section class="formulario-section" id="registro">
+<section class="formulario-section" id="sec-formulario registro">
   <div class="form-wrapper">
     <div class="form-header">
       <div class="section-tag" id="form-tag">Únete gratis</div>
@@ -1033,6 +1033,26 @@ fetch('/content.json')
       if (d.formulario.exito_titulo) { const el = document.getElementById('exito-titulo'); if(el) el.textContent = d.formulario.exito_titulo; }
       if (d.formulario.exito_desc) { const el = document.getElementById('exito-desc'); if(el) el.textContent = d.formulario.exito_desc; }
     }
+  })
+  .catch(() => {});
+
+// ── Aplicar visibilidad desde content.json ──
+fetch('/content.json?v=' + Date.now())
+  .then(r => r.json())
+  .then(d => {
+    if (!d.visibilidad) return;
+    const mapa = {
+      'hero': 'hero-section',
+      'stats': 'sec-stats',
+      'beneficios': 'sec-beneficios',
+      'pasos': 'sec-pasos',
+      'formulario': 'sec-formulario registro'
+    };
+    Object.keys(d.visibilidad).forEach(k => {
+      const id = k === 'formulario' ? 'sec-formulario registro' : (k === 'hero' ? 'hero-section' : 'sec-' + k);
+      const el = document.getElementById(id) || document.getElementById('sec-' + k);
+      if (el) el.style.display = d.visibilidad[k] ? '' : 'none';
+    });
   })
   .catch(() => {});
 </script>
