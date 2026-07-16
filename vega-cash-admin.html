@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vega Cash — Panel de Administración</title>
+<title>Panel de Administración</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -616,6 +616,33 @@ body { font-family: var(--font-body); background: var(--gris-fondo); color: var(
             <div class="form-group"><label>Descripción</label><textarea id="exito-desc" rows="2" placeholder="Tu registro fue exitoso..."></textarea></div>
           </div>
         </div>
+        <div class="form-section">
+          <div class="form-section-title">⚖️ Textos de checkboxes legales</div>
+          <div class="form-grid single">
+            <div class="form-group">
+              <label>Checkbox 1 — Políticas de privacidad (texto completo)</label>
+              <textarea id="legal-privacidad" rows="2" placeholder="Acepto haber leído y comprendido las Políticas de Privacidad..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Checkbox 2 — Términos y condiciones (texto después del link)</label>
+              <input type="text" id="legal-terminos" placeholder="de la campaña Vega Cash.">
+            </div>
+            <div class="form-group">
+              <label>Checkbox 3 — Autorización opcional (texto completo)</label>
+              <textarea id="legal-opcional" rows="3" placeholder="Autorizo de manera libre, previa, expresa..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="form-section-title">📍 Distritos del formulario</div>
+          <div class="form-grid single">
+            <div class="form-group">
+              <label>Lista de distritos</label>
+              <textarea id="distritos" rows="4" placeholder="Miraflores, San Isidro, Surco, Ate, Los Olivos..."></textarea>
+              <span class="form-hint">Escribe los distritos separados por comas. Se ordenarán alfabéticamente automáticamente.</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- VISIBILIDAD -->
@@ -883,6 +910,10 @@ async function cargarDatos() {
     setVal('url-privacidad', d.formulario?.url_privacidad || '');
     setVal('exito-titulo', d.formulario?.exito_titulo || '');
     setVal('exito-desc', d.formulario?.exito_desc || '');
+    setVal('legal-privacidad', d.formulario?.legal_privacidad || '');
+    setVal('legal-terminos', d.formulario?.legal_terminos || '');
+    setVal('legal-opcional', d.formulario?.legal_opcional || '');
+    setVal('distritos', d.formulario?.distritos || '');
 
     // Visibilidad
     if (d.visibilidad) {
@@ -960,7 +991,11 @@ async function guardarYPublicar() {
       subtitulo: getVal('form-subtitulo'), btn_texto: getVal('btn-texto'),
       privacidad_nota: getVal('privacidad-nota'), texto_legal: getVal('texto-legal'),
       url_terminos: getVal('url-terminos'), url_privacidad: getVal('url-privacidad'),
-      exito_titulo: getVal('exito-titulo'), exito_desc: getVal('exito-desc')
+      exito_titulo: getVal('exito-titulo'), exito_desc: getVal('exito-desc'),
+      legal_privacidad: getVal('legal-privacidad'),
+      legal_terminos: getVal('legal-terminos'),
+      legal_opcional: getVal('legal-opcional'),
+      distritos: getVal('distritos')
     },
     visibilidad: {
       hero: document.getElementById('vis-hero').checked,
