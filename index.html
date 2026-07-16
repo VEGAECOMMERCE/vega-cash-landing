@@ -1028,6 +1028,8 @@ fetch('/content.json')
       if (d.formulario.tag) { const el = document.getElementById('form-tag'); if(el) el.textContent = d.formulario.tag; }
       if (d.formulario.titulo) { const el = document.getElementById('form-titulo'); if(el) el.textContent = d.formulario.titulo; }
       if (d.formulario.subtitulo) { const el = document.getElementById('form-subtitulo'); if(el) el.textContent = d.formulario.subtitulo; }
+      if (d.formulario.btn_texto) { const el = document.getElementById('btn-texto'); if(el) el.textContent = d.formulario.btn_texto; }
+      if (d.formulario.privacidad_nota) { const el = document.getElementById('privacidad-nota'); if(el) el.textContent = d.formulario.privacidad_nota; }
       if (d.formulario.url_terminos) { const el = document.getElementById('url-terminos'); if(el) el.href = d.formulario.url_terminos; }
       if (d.formulario.url_privacidad) { const el = document.getElementById('url-privacidad'); if(el) el.href = d.formulario.url_privacidad; }
       if (d.formulario.exito_titulo) { const el = document.getElementById('exito-titulo'); if(el) el.textContent = d.formulario.exito_titulo; }
