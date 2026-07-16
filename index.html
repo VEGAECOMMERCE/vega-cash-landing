@@ -926,24 +926,6 @@
             <div class="select-wrap">
               <select id="distrito">
                 <option value="">Selecciona tu distrito</option>
-                <optgroup label="Lima Centro">
-                  <option>Miraflores</option><option>San Isidro</option><option>Surco</option>
-                  <option>La Molina</option><option>San Borja</option><option>Jesús María</option>
-                  <option>Lince</option><option>Pueblo Libre</option><option>Magdalena del Mar</option>
-                  <option>San Miguel</option><option>Breña</option><option>Lima Cercado</option>
-                </optgroup>
-                <optgroup label="Lima Norte">
-                  <option>Los Olivos</option><option>Independencia</option>
-                  <option>San Martín de Porres</option><option>Comas</option><option>Carabayllo</option>
-                </optgroup>
-                <optgroup label="Lima Este">
-                  <option>El Agustino</option><option>San Juan de Lurigancho</option>
-                  <option>Ate</option><option>Santa Anita</option>
-                </optgroup>
-                <optgroup label="Lima Sur">
-                  <option>San Juan de Miraflores</option><option>Villa El Salvador</option>
-                  <option>Chorrillos</option><option>Barranco</option>
-                </optgroup>
                 <option value="Otro">Otro</option>
               </select>
             </div>
@@ -952,19 +934,19 @@
           <div class="terms-row">
             <input type="checkbox" id="aceptaPrivacidad">
             <p class="terms-text">
-              Acepto haber leído y comprendido las <a href="#" id="url-privacidad">Políticas de Privacidad</a> y consiento el <a href="#">tratamiento de mis datos personales</a> conforme a ella.
+              <span id="legal-privacidad">Acepto haber leído y comprendido las </span><a href="#" id="url-privacidad">Políticas de Privacidad</a><span id="legal-privacidad2"> y consiento el tratamiento de mis datos personales conforme a ella.</span>
             </p>
           </div>
           <div class="terms-row">
             <input type="checkbox" id="aceptaTerminos">
             <p class="terms-text">
-              Acepto los <a href="#" id="url-terminos">términos y condiciones</a> de la campaña Vega Cash.
+              <span id="legal-terminos1">Acepto los </span><a href="#" id="url-terminos">términos y condiciones</a><span id="legal-terminos2"> de la campaña Vega Cash.</span>
             </p>
           </div>
           <div class="terms-row">
             <input type="checkbox" id="comunicacionesOpcional">
             <p class="terms-text">
-              Autorizo de manera libre, previa, expresa e informada que Corporación VEGA SAC trate mis datos personales para enviarme comunicaciones comerciales, publicitarias y/o promocionales, realizar todo tipo de encuestas, incluyendo ofertas, novedades y beneficios, a través de medios físicos y/o electrónicos. (Opcional).
+              <span id="legal-opcional">Autorizo de manera libre, previa, expresa e informada que Corporación VEGA SAC trate mis datos personales para enviarme comunicaciones comerciales, publicitarias y/o promocionales, realizar todo tipo de encuestas, incluyendo ofertas, novedades y beneficios, a través de medios físicos y/o electrónicos. (Opcional).</span>
             </p>
           </div>
         </div>
@@ -1029,6 +1011,23 @@ fetch('/content.json')
       if (d.formulario.titulo) { const el = document.getElementById('form-titulo'); if(el) el.textContent = d.formulario.titulo; }
       if (d.formulario.subtitulo) { const el = document.getElementById('form-subtitulo'); if(el) el.textContent = d.formulario.subtitulo; }
       if (d.formulario.btn_texto) { const el = document.getElementById('btn-texto'); if(el) el.textContent = d.formulario.btn_texto; }
+      if (d.formulario.legal_privacidad) {
+        const el1 = document.getElementById('legal-privacidad'); if(el1) el1.textContent = d.formulario.legal_privacidad.split('Políticas de Privacidad')[0];
+        const el2 = document.getElementById('legal-privacidad2'); if(el2) el2.textContent = ' y consiento el tratamiento de mis datos personales conforme a ella.';
+      }
+      if (d.formulario.legal_terminos) {
+        const el1 = document.getElementById('legal-terminos2'); if(el1) el1.textContent = ' ' + d.formulario.legal_terminos;
+      }
+      if (d.formulario.legal_opcional) { const el = document.getElementById('legal-opcional'); if(el) el.textContent = d.formulario.legal_opcional; }
+      if (d.formulario.distritos) {
+        const sel = document.getElementById('distrito');
+        if (sel) {
+          const lista = d.formulario.distritos.split(',').map(d => d.trim()).filter(d => d).sort((a,b) => a.localeCompare(b,'es'));
+          sel.innerHTML = '<option value="">Selecciona tu distrito</option>';
+          lista.forEach(dist => { const opt = document.createElement('option'); opt.value = dist; opt.textContent = dist; sel.appendChild(opt); });
+          const otro = document.createElement('option'); otro.value = 'Otro'; otro.textContent = 'Otro'; sel.appendChild(otro);
+        }
+      }
       if (d.formulario.privacidad_nota) { const el = document.getElementById('privacidad-nota'); if(el) el.textContent = d.formulario.privacidad_nota; }
       if (d.formulario.url_terminos) { const el = document.getElementById('url-terminos'); if(el) el.href = d.formulario.url_terminos; }
       if (d.formulario.url_privacidad) { const el = document.getElementById('url-privacidad'); if(el) el.href = d.formulario.url_privacidad; }
