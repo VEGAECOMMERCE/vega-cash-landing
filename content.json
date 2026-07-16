@@ -37,12 +37,12 @@
     "p3_desc": ""
   },
   "formulario": {
-    "tag": "Únete gratis",
+    "tag": "ÚNETE GRATIS",
     "titulo": "COMPLETA TUS DATOS",
     "subtitulo": "Válido para las personas registradas hasta el 31 de julio",
     "btn_texto": "Enviar",
     "privacidad_nota": "Tus datos están protegidos. Nunca los compartiremos con terceros.",
-    "texto_legal": "s",
+    "texto_legal": "",
     "url_terminos": "#",
     "url_privacidad": "#",
     "exito_titulo": "Tu registro fue exitoso.",
