@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Muy pronto</title>
+<title>Vega Cash — Muy pronto</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -769,9 +769,9 @@
 <!-- HERO -->
 <section class="hero" id="hero-section">
   <div class="hero-overlay no-image" id="hero-overlay"></div>
-  <h1 id="hero-titulo">PRONTO ACCEDERÁS A <em>VEGA CASH</em></h1>
-  <p class="hero-sub" id="hero-subtitulo">Estamos preparando un programa de beneficios exclusivos para ti. Regístrate y sé el primero en enterarte.</p>
-  <a href="#registro" class="hero-cta" id="hero-cta">
+  <h1 id="hero-titulo" style="visibility:hidden">PRONTO ACCEDERÁS A <em>VEGA CASH</em></h1>
+  <p class="hero-sub" id="hero-subtitulo" style="visibility:hidden">Estamos preparando un programa de beneficios exclusivos para ti. Regístrate y sé el primero en enterarte.</p>
+  <a href="#registro" class="hero-cta" id="hero-cta" style="visibility:hidden">
     Quiero ser el primero en saber
     <svg fill="none" viewBox="0 0 16 16" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8h10M9 4l4 4-4 4"/></svg>
   </a>
@@ -986,6 +986,10 @@ fetch('/content.json')
       if (d.hero.titulo) document.getElementById('hero-titulo').innerHTML = d.hero.titulo;
       if (d.hero.subtitulo) document.getElementById('hero-subtitulo').textContent = d.hero.subtitulo;
       if (d.hero.cta) { const c = document.getElementById('hero-cta'); if(c) c.childNodes[0].textContent = d.hero.cta + ' '; }
+      // Mostrar hero después de cargar contenido
+      ['hero-titulo','hero-subtitulo','hero-cta'].forEach(id => {
+        const el = document.getElementById(id); if(el) el.style.visibility = 'visible';
+      });
       if (d.hero.imagen) {
         const s = document.getElementById('hero-section');
         const o = document.getElementById('hero-overlay');
@@ -1035,7 +1039,11 @@ fetch('/content.json')
       if (d.formulario.exito_desc) { const el = document.getElementById('exito-desc'); if(el) el.textContent = d.formulario.exito_desc; }
     }
   })
-  .catch(() => {});
+  .catch(() => {
+    ['hero-titulo','hero-subtitulo','hero-cta'].forEach(id => {
+      const el = document.getElementById(id); if(el) el.style.visibility = 'visible';
+    });
+  });
 
 // ── Aplicar visibilidad desde content.json ──
 fetch('/content.json?v=' + Date.now())
@@ -1116,7 +1124,7 @@ async function enviarFormulario() {
     correo:     document.getElementById('correo').value.trim(),
     distrito:   document.getElementById('distrito').value,
     acepta_comunicaciones_opcionales: document.getElementById('comunicacionesOpcional').checked,
-    fecha_registro: new Date().toISOString(),
+    fecha_registro: new Date().toLocaleString('es-PE', { timeZone: 'America/Lima', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }),
     fuente: 'Landing Vega Cash'
   };
 
