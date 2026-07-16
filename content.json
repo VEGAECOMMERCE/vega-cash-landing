@@ -16,8 +16,8 @@
     "s4_label": "Registro sin costo"
   },
   "beneficios": {
-    "b1_titulo": "Descuentos exclusivos",
-    "b1_desc": "Precios especiales solo para miembros de VEGA CASH.",
+    "b1_titulo": "Descuentos imperdibles",
+    "b1_desc": "Precios especiales solo para las personas registradas.",
     "b2_titulo": "Acceso anticipado",
     "b2_desc": "Sé el primero en enterarte de nuestros eventos exclusivos.",
     "b3_titulo": "Acumula puntos",
@@ -51,7 +51,7 @@
   "visibilidad": {
     "hero": true,
     "stats": true,
-    "beneficios": true,
+    "beneficios": false,
     "pasos": false,
     "formulario": true
   }
