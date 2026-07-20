@@ -1143,6 +1143,18 @@ function getUTM(k) {
   const max = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate());
   el.max = max.toISOString().split('T')[0];
 })();
+
+// ── Función para calcular edad desde fecha de nacimiento
+function calcularEdad(fechaStr) {
+  if (!fechaStr) return null;
+  const fnac = new Date(fechaStr + 'T00:00:00');
+  if (isNaN(fnac.getTime())) return null;
+  const hoy = new Date();
+  let edad = hoy.getFullYear() - fnac.getFullYear();
+  const m = hoy.getMonth() - fnac.getMonth();
+  if (m < 0 || (m === 0 && hoy.getDate() < fnac.getDate())) edad--;
+  return edad;
+}
 const SHEET_ID = '1XzxQcXiFVYRzJCOGcRxwwBUqvC4h2XM__mFoI5Q-9WE';
 const SHEET_NAME = 'base_formulario';
 
@@ -1243,6 +1255,7 @@ async function enviarFormulario() {
     tipo_doc:   document.getElementById('tipoDoc').value,
     num_doc:    document.getElementById('numDoc').value.trim(),
     fecha_nac:  document.getElementById('fechaNac').value,
+    edad:       calcularEdad(document.getElementById('fechaNac').value),
     celular:    document.getElementById('celular').value.trim(),
     correo:     document.getElementById('correo').value.trim(),
     distrito:   document.getElementById('distrito').value,
